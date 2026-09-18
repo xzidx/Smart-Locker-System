@@ -2,47 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-
-
-// Dashboard
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->name('dashboard');
-
-
-// Locations
-Route::resource('locations', LocationController::class);
-
-
-// Reservation
-Route::resource('reservation', LockerUsageController::class);
-
-
-// Lockers
-Route::resource('lockers', LockerController::class);
-
-
-// Locker Usage / Reservation
-Route::resource('locker_usage', LockerUsageController::class);
-
-
-// Locker Maintenance
-Route::resource('locker_maintenance', LockerMaintenanceController::class);
-
-
-// Settings
-Route::get('/settings', function () {
-    return view('settings.index');
-})->name('settings');
-
-
-// Login
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-
-// Register
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
+Route::get('/', function () {
+    return view('dashboard');
+});
