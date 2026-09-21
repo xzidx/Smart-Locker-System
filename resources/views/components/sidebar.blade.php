@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,7 +21,7 @@
 
     <!-- Mobile header -->
     <header
-        class="fixed left-0 right-0 top-0 z-40 flex h-16
+        class="fixed left-0 right-0 top-0 z-[60] flex h-16
                items-center bg-white px-4 shadow md:hidden"
     >
 
@@ -28,7 +29,7 @@
         <button
             id="menuButton"
             type="button"
-            class="text-2xl text-[#0B1F3A]"
+            class="p-2 text-2xl text-[#0B1F3A]"
         >
             <i class="fa-solid fa-bars"></i>
         </button>
@@ -48,11 +49,13 @@
 
     </header>
 
+
     <!-- Mobile overlay -->
     <div
         id="sidebarOverlay"
         class="fixed inset-0 z-40 hidden bg-black/50 md:hidden"
     ></div>
+
 
     <!-- Sidebar -->
     <aside
@@ -77,6 +80,7 @@
 
         </div>
 
+
         <!-- Navigation -->
         <nav class="mt-6 flex-1 space-y-2">
 
@@ -93,6 +97,7 @@
                 </span>
             </a>
 
+
             <!-- Locations -->
             <a
                 href="/locations"
@@ -106,6 +111,7 @@
                 </span>
             </a>
 
+
             <!-- Reservation -->
             <a
                 href="/reservation"
@@ -118,6 +124,7 @@
                     Reservation
                 </span>
             </a>
+
 
             <!-- Settings -->
             <a
@@ -133,6 +140,7 @@
             </a>
 
         </nav>
+
 
         <!-- Help section -->
         <div class="m-6 rounded-xl bg-[#132D50] p-4">
@@ -150,7 +158,6 @@
     </aside>
 
 
-
     <!-- Mobile sidebar script -->
     <script>
 
@@ -165,6 +172,7 @@
             sidebarOverlay.classList.remove('hidden');
 
         });
+
 
         // Close sidebar
         sidebarOverlay.addEventListener('click', function () {
