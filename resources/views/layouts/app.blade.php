@@ -40,7 +40,6 @@
             <p class="text-xs text-[#2563EB]">
                 SOLUTIONS
             </p>
-
         </div>
 
     </header>
