@@ -10,7 +10,7 @@ class LockerMaintenanceController extends Controller
     {
         $maintenances = LockerMaintenance::with('locker')->get();
 
-        return view('locker-maintenance.index', compact('maintenances'));
+        return view('locker_maintenance.index', compact('maintenances'));
     }
 
     public function create()
@@ -18,7 +18,7 @@ class LockerMaintenanceController extends Controller
         $lockers = Locker::all();
 
         return view(
-            'locker-maintenance.create',
+            'locker_maintenance.create',
             compact('lockers')
         );
     }
@@ -36,7 +36,7 @@ class LockerMaintenanceController extends Controller
 
         LockerMaintenance::create($request->all());
 
-        return redirect()->route('locker-maintenance.index');
+        return redirect()->route('locker_maintenance.index');
     }
 
     public function show(LockerMaintenance $lockerMaintenance)
@@ -44,7 +44,7 @@ class LockerMaintenanceController extends Controller
         $lockerMaintenance->load('locker');
 
         return view(
-            'locker-maintenance.show',
+            'locker_maintenance.show',
             compact('lockerMaintenance')
         );
     }
@@ -54,7 +54,7 @@ class LockerMaintenanceController extends Controller
         $lockers = Locker::all();
 
         return view(
-            'locker-maintenance.edit',
+            'locker_maintenance.edit',
             compact('lockerMaintenance', 'lockers')
         );
     }
@@ -74,13 +74,13 @@ class LockerMaintenanceController extends Controller
 
         $lockerMaintenance->update($request->all());
 
-        return redirect()->route('locker-maintenance.index');
+        return redirect()->route('locker_maintenance.index');
     }
 
     public function destroy(LockerMaintenance $lockerMaintenance)
     {
         $lockerMaintenance->delete();
 
-        return redirect()->route('locker-maintenance.index');
+        return redirect()->route('locker_maintenance.index');
     }
 }

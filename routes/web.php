@@ -2,10 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\LocationController;
-use App\Http\Controllers\LockerController;
-use App\Http\Controllers\LockerUsageController;
-use App\Http\Controllers\LockerMaintenanceController;
 
 
 // Dashboard

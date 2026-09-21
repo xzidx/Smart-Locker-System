@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Locker;
+use App\Models\LockerUsage;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class LockerUsageController extends Controller
 {
-     public function index()
+    public function index()
     {
         $usages = LockerUsage::with('user', 'locker')->get();
 
-        return view('locker-usage.index', compact('usages'));
+        return view('locker_usage.index', compact('usages'));
     }
 
     public function create()
@@ -18,7 +21,7 @@ class LockerUsageController extends Controller
         $users = User::all();
         $lockers = Locker::all();
 
-        return view('locker-usage.create', compact('users', 'lockers'));
+        return view('locker_usage.create', compact('users', 'lockers'));
     }
 
     public function store(Request $request)
@@ -33,14 +36,14 @@ class LockerUsageController extends Controller
 
         LockerUsage::create($request->all());
 
-        return redirect()->route('locker-usage.index');
+        return redirect()->route('locker_usage.index');
     }
 
     public function show(LockerUsage $lockerUsage)
     {
         $lockerUsage->load('user', 'locker');
 
-        return view('locker-usage.show', compact('lockerUsage'));
+        return view('locker_usage.show', compact('lockerUsage'));
     }
 
     public function edit(LockerUsage $lockerUsage)
@@ -48,7 +51,7 @@ class LockerUsageController extends Controller
         $users = User::all();
         $lockers = Locker::all();
 
-        return view('locker-usage.edit', compact(
+        return view('locker_usage.edit', compact(
             'lockerUsage',
             'users',
             'lockers'
