@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservationController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', function () {
-return view('reservation');
+return view('Reservation.index');
+});
+
+Route::get('/reservations/active', function () {
+    return view('Active_Locker.index');
 });

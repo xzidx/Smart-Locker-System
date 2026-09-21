@@ -37,11 +37,11 @@
 
     </div>
 
-  <button
-    onclick="openQR()"
+ <a
+    href="{{ url('/reservations/active') }}"
     class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-3 rounded-xl transition"
 >
     View QR
-</button>
+</a>
 
 </div>
