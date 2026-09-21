@@ -11,10 +11,6 @@ Route::resource('lockers', LockerController::class);
 Route::resource('locker-usage', LockerUsageController::class);
 Route::resource('locker-maintenance', LockerMaintenanceController::class);
 
-use App\Http\Controllers\LocationController;
-use App\Http\Controllers\LockerController;
-use App\Http\Controllers\LockerUsageController;
-use App\Http\Controllers\LockerMaintenanceController;
 
 
 // Dashboard

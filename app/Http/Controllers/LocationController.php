@@ -2,29 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Location;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
     public function index()
     {
-        // Logic to retrieve and return locker usage data
-        $locations = location::all();
+        // Get all locations
+        $locations = Location::all();
 
         return view('locations.index', compact('locations'));
-
     }
 
     public function create()
     {
-        // Logic to show a form for creating a new locker usage
+        // Show create location page
         return view('locations.create');
-
     }
 
     public function store(Request $request)
     {
-        // Logic to store a new locker usage record
+        // Validate location data
         $request->validate([
             'name' => 'required|string|max:100',
             'address' => 'required|string|max:255',
@@ -32,28 +31,29 @@ class LocationController extends Controller
             'floor' => 'required|string|max:50',
         ]);
 
+        // Create location
         Location::create($request->all());
 
-        return redirect()->route('locations.index')
-                         ->with('success', 'Location created successfully.');
+        return redirect()
+            ->route('locations.index')
+            ->with('success', 'Location created successfully.');
     }
 
-    public function show(location $location)
+    public function show(Location $location)
     {
-        // Logic to retrieve and return a specific locker usage record
-
+        // Show one location
         return view('locations.show', compact('location'));
     }
 
-    public function edit(location $location)
+    public function edit(Location $location)
     {
-        // Logic to show a form for editing a specific locker usage record
+        // Show edit location page
         return view('locations.edit', compact('location'));
     }
 
-    public function update(Request $request, location $location)
+    public function update(Request $request, Location $location)
     {
-        // Logic to update a specific locker usage record
+        // Validate location data
         $request->validate([
             'name' => 'required|string|max:100',
             'address' => 'required|string|max:255',
@@ -61,18 +61,21 @@ class LocationController extends Controller
             'floor' => 'required|string|max:50',
         ]);
 
+        // Update location
         $location->update($request->all());
 
-        return redirect()->route('locations.index')
-                         ->with('success', 'Location updated successfully.');
+        return redirect()
+            ->route('locations.index')
+            ->with('success', 'Location updated successfully.');
     }
 
-    public function destroy(location $location)
+    public function destroy(Location $location)
     {
-        // Logic to delete a specific locker usage record
+        // Delete location
         $location->delete();
 
-        return redirect()->route('locations.index')
-                         ->with('success', 'Location deleted successfully.');
+        return redirect()
+            ->route('locations.index')
+            ->with('success', 'Location deleted successfully.');
     }
 }
