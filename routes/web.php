@@ -5,11 +5,13 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LockerController;
 use App\Http\Controllers\LockerUsageController;
 use App\Http\Controllers\LockerMaintenanceController;
+use App\Http\Controllers\ReservationController;
+
 
 Route::resource('locations', LocationController::class);
 Route::resource('lockers', LockerController::class);
-Route::resource('locker-usage', LockerUsageController::class);
-Route::resource('locker-maintenance', LockerMaintenanceController::class);
+Route::resource('locker_usage', LockerUsageController::class);
+Route::resource('locker_maintenance', LockerMaintenanceController::class);
 
 
 
@@ -24,7 +26,7 @@ Route::resource('locations', LocationController::class);
 
 
 // Reservation
-Route::resource('reservation', LockerUsageController::class);
+Route::resource('reservation', ReservationController::class);
 
 
 // Lockers
