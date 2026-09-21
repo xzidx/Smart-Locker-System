@@ -40,37 +40,7 @@
 </div>
 
 
-<div
-    id="qrModal"
-    class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
 
-    <div class="bg-white rounded-[18px] w-full max-w-[320px] p-5 shadow-xl">
-
-        <div class="flex justify-center mb-4">
-
-            <div class="border border-gray-200 rounded-lg p-3">
-
-                <img
-                    src="{{ asset('images/QR.jpg') }}"
-                    alt="QR Code"
-                    class="w-[150px] h-[150px] object-contain">
-
-            </div>
-
-        </div>
-        <p class="text-center text-[13px] leading-5 text-slate-500 mb-4">
-            Show this QR code at the locker to access
-            your reservation.
-        </p>
-        <button
-            onclick="closeQR()"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-3 rounded-xl transition">
-            Close
-        </button>
-
-    </div>
-
-</div>
 
 
 <script>
@@ -94,27 +64,5 @@
             button.textContent = 'View less';
 
         }
-    }
-
-
-    // Open QR
-    function openQR() {
-
-        const qrModal =
-            document.getElementById('qrModal');
-
-        qrModal.classList.remove('hidden');
-
-    }
-
-
-    // Close QR
-    function closeQR() {
-
-        const qrModal =
-            document.getElementById('qrModal');
-
-        qrModal.classList.add('hidden');
-
     }
 </script>
