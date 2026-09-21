@@ -7,9 +7,18 @@
            md:translate-x-0"
 >
 
+   
     <!-- Logo -->
+    
     <div class="p-6">
 
+        <h1 class="hidden text-2xl font-bold md:block">
+            Smart Locker
+        </h1>
+
+        <p class="mt-2 hidden text-sm text-[#90E0EF] md:block">
+            SOLUTIONS
+        </p>
 
     </div>
 
