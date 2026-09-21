@@ -6,73 +6,74 @@ use Illuminate\Http\Request;
 
 class LockerUsageController extends Controller
 {
-    public function index()
+     public function index()
     {
-        // Logic to retrieve and return locker usage data
-        $locations = location::all();
+        $usages = LockerUsage::with('user', 'locker')->get();
 
-        return view('locations.index', compact('locations'));
-
+        return view('locker-usage.index', compact('usages'));
     }
 
     public function create()
     {
-        // Logic to show a form for creating a new locker usage
-        return view('locations.create');
+        $users = User::all();
+        $lockers = Locker::all();
 
+        return view('locker-usage.create', compact('users', 'lockers'));
     }
 
     public function store(Request $request)
     {
-        // Logic to store a new locker usage record
         $request->validate([
-            'name' => 'required|string|max:100',
-            'address' => 'required|string|max:255',
-            'building' => 'required|string|max:100',
-            'floor' => 'required|string|max:50',
+            'user_id' => 'required|exists:users,id',
+            'locker_id' => 'required|exists:lockers,id',
+            'start_time' => 'required|date',
+            'end_time' => 'nullable|date|after_or_equal:start_time',
+            'status' => 'required|max:30',
         ]);
 
-        Location::create($request->all());
+        LockerUsage::create($request->all());
 
-        return redirect()->route('locations.index')
-                         ->with('success', 'Location created successfully.');
+        return redirect()->route('locker-usage.index');
     }
 
-    public function show(location $location)
+    public function show(LockerUsage $lockerUsage)
     {
-        // Logic to retrieve and return a specific locker usage record
+        $lockerUsage->load('user', 'locker');
 
-        return view('locations.show', compact('location'));
+        return view('locker-usage.show', compact('lockerUsage'));
     }
 
-    public function edit(location $location)
+    public function edit(LockerUsage $lockerUsage)
     {
-        // Logic to show a form for editing a specific locker usage record
-        return view('locations.edit', compact('location'));
+        $users = User::all();
+        $lockers = Locker::all();
+
+        return view('locker-usage.edit', compact(
+            'lockerUsage',
+            'users',
+            'lockers'
+        ));
     }
 
-    public function update(Request $request, location $location)
+    public function update(Request $request, LockerUsage $lockerUsage)
     {
-        // Logic to update a specific locker usage record
         $request->validate([
-            'name' => 'required|string|max:100',
-            'address' => 'required|string|max:255',
-            'building' => 'required|string|max:100',
-            'floor' => 'required|string|max:50',
+            'user_id' => 'required|exists:users,id',
+            'locker_id' => 'required|exists:lockers,id',
+            'start_time' => 'required|date',
+            'end_time' => 'nullable|date|after_or_equal:start_time',
+            'status' => 'required|max:30',
         ]);
 
-        $location->update($request->all());
+        $lockerUsage->update($request->all());
 
-        return redirect()->route('locations.index')
-                         ->with('success', 'Location updated successfully.');
+        return redirect()->route('locker-usage.index');
     }
 
-    public function destroy(location $location)
+    public function destroy(LockerUsage $lockerUsage)
     {
-        // Logic to delete a specific locker usage record
-        $location->delete();
+        $lockerUsage->delete();
 
-        return redirect()->route('locations.index')
-                         ->with('success', 'Location deleted successfully.');
+        return redirect()->route('locker-usage.index');
     }
 }
