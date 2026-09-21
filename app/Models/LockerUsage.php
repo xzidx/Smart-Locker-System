@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LockerUsage extends Model
 {
-    protected $table = 'locker_usages';
+    protected $table = 'locker_usage';
 
     protected $fillable = [
         'user_id',
