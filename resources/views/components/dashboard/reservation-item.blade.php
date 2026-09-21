@@ -3,7 +3,7 @@
     'time',
     'status' => 'Active',
     'last' => false,
-])
+])      
 
 <div {{ $attributes->merge(['class' => 'flex items-center justify-between px-4 py-4 ' . ($last ? '' : 'border-b border-slate-100')]) }}>
     <div>
