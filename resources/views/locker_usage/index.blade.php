@@ -10,7 +10,7 @@
     <div class="p-8">
 
         <h2 class="text-2xl font-bold text-[#0B1F3A]">
-            Welcome to the Smart Locker Usage Page
+            Welcome to the Smart Locker Usage Page0000000000000
         </h2>
 
         <p class="mt-2 text-gray-600">
