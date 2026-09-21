@@ -1,24 +1,57 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\LockerController;
+use App\Http\Controllers\LockerUsageController;
+use App\Http\Controllers\LockerMaintenanceController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::resource('locations', LocationController::class);
+Route::resource('lockers', LockerController::class);
+Route::resource('locker-usage', LockerUsageController::class);
+Route::resource('locker-maintenance', LockerMaintenanceController::class);
 
-Route::get('/', function () {
-    return view('auth.login.index');
+
+
+// Dashboard
+Route::get('/dashboard', function () {
+    return view('dashboard.index');
+})->name('dashboard');
+
+
+// Locations
+Route::resource('locations', LocationController::class);
+
+
+// Reservation
+Route::resource('reservation', LockerUsageController::class);
+
+
+// Lockers
+Route::resource('lockers', LockerController::class);
+
+
+// Locker Usage / Reservation
+Route::resource('locker_usage', LockerUsageController::class);
+
+
+// Locker Maintenance
+Route::resource('locker_maintenance', LockerMaintenanceController::class);
+
+
+// Settings
+Route::get('/settings', function () {
+    return view('settings.index');
+})->name('settings');
+
+
+// Login
+Route::get('/login', function () {
+    return view('auth.login');
 })->name('login');
 
+
+// Register
 Route::get('/register', function () {
-    return view('auth.login.register');
+    return view('auth.register');
 })->name('register');
-
-Route::post('/register', function () {
-    // Registration logic will go here
-    return 'Registration submitted!';
-})->name('register.store');
-
-Route::get('/forgot-password', function () {
-    return view('auth.forgot-password');
-})->name('password.request');

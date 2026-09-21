@@ -17,6 +17,18 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    protected $fillalbe = [
+        'name',
+        'email',
+        'phone',
+        'password',
+        'role',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
     /**
      * Get the attributes that should be cast.
      *
@@ -28,5 +40,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    protected function lockerUsages()
+    {
+        return $this->hasMany(LockerUsage::class);
     }
 }
