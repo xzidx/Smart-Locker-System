@@ -7,12 +7,11 @@ use App\Http\Controllers\LockerUsageController;
 use App\Http\Controllers\LockerMaintenanceController;
 use App\Http\Controllers\ReservationController;
 
-
 Route::resource('locations', LocationController::class);
 Route::resource('lockers', LockerController::class);
 Route::resource('locker_usage', LockerUsageController::class);
 Route::resource('locker_maintenance', LockerMaintenanceController::class);
-
+Route::resource('reservation', ReservationController::class);
 
 
 // Dashboard
