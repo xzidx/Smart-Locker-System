@@ -45,166 +45,18 @@ Route::get('/settings', function () {
     return view('settings.index');
 })->name('settings');
 
-
-// Login
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-
-// Register
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Route::get('/locations/details/{id}', function ($id) {
-    return view('locations.details', ['lockerId' => $id]);
-})->name('locations.details');
-
-
-Route::get('/locations/locker/{id}', function ($id) {
-    return view('locations.locker', ['lockerId' => $id]);
-})->name('locations.locker');
+Route::get('/', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::post('/register', function () {
+    return 'Registration submitted!';
+})->name('register.store');
+
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->name('password.request');
