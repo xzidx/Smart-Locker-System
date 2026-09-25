@@ -59,3 +59,10 @@ Route::post('/register', function () {
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
 })->name('password.request');
+
+
+
+
+Route::get('/reservation_checkout', function () {
+    return view('reservation_checkout.index');
+});
