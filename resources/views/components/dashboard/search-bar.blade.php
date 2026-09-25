@@ -1,20 +1,41 @@
+
 @props([
     'action' => '#',
     'name' => 'q',
     'placeholder' => 'Search address, neighborhood or landmark',
 ])
 
-<form action="{{ $action }}" method="GET" {{ $attributes->merge(['class' => 'relative']) }}>
+<form
+    action="{{ $action }}"
+    method="GET"
+    {{ $attributes->merge(['class' => 'relative']) }}
+>
+
+    {{-- Search Icon --}}
     <span class="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#212121" d="m19.6 21l-6.3-6.3q-.75.6-1.725.95T9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l6.3 6.3zM9.5 14q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14"/></svg>   
+
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+        >
+            <path
+                fill="#212121"
+                d="m19.6 21l-6.3-6.3q-.75.6-1.725.95T9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l6.3 6.3zM9.5 14q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14"
+            />
+        </svg>
 
     </span>
+
+
+    {{-- Search Input --}}
     <input
         type="text"
         name="{{ $name }}"
         value="{{ request($name) }}"
         placeholder="{{ $placeholder }}"
-        class="w-full rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm text-slate-700
-               shadow-sm placeholder:text-slate-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
+        class="w-full rounded-xl border border-slate-200 bg-transparent py-3 pl-11 pr-4 text-sm text-slate-700 shadow-sm placeholder:text-slate-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100"
     >
+
 </form>

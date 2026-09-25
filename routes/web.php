@@ -1,17 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LockerController;
 use App\Http\Controllers\LockerUsageController;
 use App\Http\Controllers\LockerMaintenanceController;
-use App\Http\Controllers\DashboardController;
-
-Route::resource('locations', LocationController::class);
-Route::resource('lockers', LockerController::class);
-Route::resource('locker-usage', LockerUsageController::class);
-Route::resource('locker-maintenance', LockerMaintenanceController::class);
-
+use App\Http\Controllers\ReservationController;
 
 
 // Dashboard
@@ -23,20 +19,21 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 Route::resource('locations', LocationController::class);
 
 
-// Reservation
-Route::resource('reservation', LockerUsageController::class);
-
-
 // Lockers
 Route::resource('lockers', LockerController::class);
 
 
-// Locker Usage / Reservation
-Route::resource('locker_usage', LockerUsageController::class);
+// Locker Usage
+Route::resource('locker-usage', LockerUsageController::class);
 
 
 // Locker Maintenance
-Route::resource('locker_maintenance', LockerMaintenanceController::class);
+Route::resource('locker-maintenance', LockerMaintenanceController::class);
+
+
+// Reservations
+Route::get('/reservations', [ReservationController::class, 'index'])
+    ->name('reservations.index');
 
 
 // Settings
