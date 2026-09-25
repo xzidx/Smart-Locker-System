@@ -85,7 +85,6 @@
 
                     {{-- Closed Lock Icon --}}
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 15 15"><path fill="#cb1818" d="M14 1.5v12c0 .28-.22.5-.5.5h-12c-.28 0-.5-.22-.5-.5v-12c0-.28.22-.5.5-.5h12c.28 0 .5.22.5.5M13 5h-3v3h3zm-2 4h-1v1h1zm2 0h-1v1h1zM2 5v2h3V5zm0 3v2h3V8zm0 3v2h3v-2zm4 0v2h3v-2zm0-3v2h3V8zm0-3v2h3V5zm0-3v2h3V2zM5 2H2v2h3z"/></svg>
-                   <!-- <svg xmlns="http://www.w3.org/2000/svg" width="4" height="24" viewBox="0 0 24 24"><path fill="#b71a1a" d="M24 7.88a2.5 2.5 0 0 0-2.5-2.5h-4.25a.5.5 0 0 1-.5-.5v-.76a2.51 2.51 0 0 0-2.5-2.5h-4.5a2.51 2.51 0 0 0-2.5 2.5v.76a.5.5 0 0 1-.5.5H2.5A2.5 2.5 0 0 0 0 7.88v12a2.51 2.51 0 0 0 2.5 2.5h19a2.51 2.51 0 0 0 2.5-2.5ZM9.25 4.12a.51.51 0 0 1 .5-.5h4.5a.51.51 0 0 1 .5.5v.76a.5.5 0 0 1-.5.5h-4.5a.5.5 0 0 1-.5-.5ZM15 17.88a3.53 3.53 0 0 1-2.73-1.32a.48.48 0 0 0-.39-.18H6.5a.5.5 0 0 1-.35-.15l-1.5-1.5a.5.5 0 0 1 0-.71l1.5-1.5a.5.5 0 0 1 .35-.14h5.38a.49.49 0 0 0 .39-.19A3.5 3.5 0 1 1 15 17.88"/><path fill="#212121" d="M15 12.88a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5"/></svg> -->
 
                 </x-dashboard.stat-card>
 
@@ -158,12 +157,18 @@
 
                     @forelse ($nearbyLocations as $location)
 
-                        <x-dashboard.location-card
-                            :name="$location->name"
-                            :address="$location->address"
-                            :hours="$location->hours_label"
-                            :available="$location->available_lockers_count"
-                        />
+                        {{-- FIX: whole card is now a link into resources/views/locations/find-locker.blade.php --}}
+                        <a
+                            href="{{ route('locations.find-locker', $location->id) }}"
+                            class="block transition hover:-translate-y-0.5 hover:shadow-md rounded-xl"
+                        >
+                            <x-dashboard.location-card
+                                :name="$location->name"
+                                :address="$location->address"
+                                :hours="$location->hours_label"
+                                :available="$location->available_lockers_count"
+                            />
+                        </a>
 
                     @empty
 
