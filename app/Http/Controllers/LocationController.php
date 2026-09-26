@@ -78,4 +78,11 @@ class LocationController extends Controller
             ->route('locations.index')
             ->with('success', 'Location deleted successfully.');
     }
+
+    public function findLocker()
+{
+    $locations = Location::with('lockers')->get();
+
+    return view('locations.find-locker', compact('locations'));
+}
 }
