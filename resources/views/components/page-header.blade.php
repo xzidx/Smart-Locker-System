@@ -67,18 +67,18 @@
                            rounded-full bg-[#0B1F3A]
                            text-sm font-semibold text-white"
                 >
-                    AM
+                    {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
                 </div>
 
                 <!-- User information -->
                 <div class="hidden text-left lg:block">
 
                     <p class="text-sm font-semibold text-gray-800">
-                        Alex Morgan
+                        {{ auth()->user()->name }}
                     </p>
 
                     <p class="text-xs text-gray-500">
-                        Staff administrator
+                        {{ ucfirst(auth()->user()->role) }}
                     </p>
 
                 </div>
