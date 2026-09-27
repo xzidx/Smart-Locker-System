@@ -30,9 +30,17 @@ Route::get('/forgot-password', function () {
 // User must be logged in to access these pages
 Route::middleware('auth')->group(function () {
     // Dashboard
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('dashboard');
+   Route::get('/dashboard', function () {
+    return view('dashboard.index');
+})->name('dashboard');
+
+Route::get('/dashboard/staff', function () {
+    if (auth()->user()->role !== 'staff') {
+        abort(403);
+    }
+
+    return view('dashboard.staff');
+})->name('staff.dashboard');
     // Locations
     Route::resource('locations', LocationController::class);
     // Reservation
