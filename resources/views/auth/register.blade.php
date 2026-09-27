@@ -205,6 +205,27 @@
 
 
                     {{-- =================================================
+                            PHONE
+                        ================================================== --}}
+                        <div class="mb-5">
+                            <label for="phone" class="block mb-2 text-[14px] font-semibold text-slate-700">
+                                Phone Number
+                            </label>
+
+                            <input
+                                id="phone"
+                                name="phone"
+                                type="tel"
+                                value="{{ old('phone') }}"
+                                placeholder="Enter your phone number"
+                                autocomplete="tel"
+                                required
+                                class="w-full h-[42px] px-3 rounded-lg border border-slate-200 bg-slate-50 text-[14px] text-slate-700 placeholder:text-slate-400 outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                            />
+                        </div>
+
+
+                    {{-- =================================================
                          PASSWORD
                     ================================================== --}}
 
