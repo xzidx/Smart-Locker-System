@@ -6,6 +6,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LockerController;
 use App\Http\Controllers\LockerUsageController;
 use App\Http\Controllers\LockerMaintenanceController;
+use App\Http\Controllers\StaffDashboardController;
 use App\Http\Controllers\DashboardController;
 
 // Authentication
@@ -23,6 +24,15 @@ Route::get('/forgot-password', function () {
 
 // Protected pages (user must be logged in)
 Route::middleware('auth')->group(function () {
+    // Dashboard
+   Route::get('/dashboard', function () {
+    return view('dashboard.index');
+})->name('dashboard');
+
+Route::get('/dashboard/staff', [StaffDashboardController::class, 'index'])
+    ->name('staff.dashboard');
+
+
 
     // Dashboard (FIXED: now uses the controller so the data is passed to the view)
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -51,6 +61,151 @@ Route::middleware('auth')->group(function () {
     Route::get('/reservation_checkout', function () {
         return view('reservation_checkout.index');
     })->name('reservation_checkout');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Location detail pages (moved inside auth group)
     Route::get('/locations/details/{id}', function ($id) {
