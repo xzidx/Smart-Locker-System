@@ -57,7 +57,7 @@ class LocationController extends Controller
     {
         $location->load('lockers');
 
-        return view('locations.show', compact('location'));
+        return view('locations.details', compact('location'));
     }
 
     public function edit(Location $location)

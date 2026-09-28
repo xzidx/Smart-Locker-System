@@ -24,15 +24,12 @@ Route::get('/forgot-password', function () {
 
 // Protected pages (user must be logged in)
 Route::middleware('auth')->group(function () {
-    // Dashboard
-   Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->name('dashboard');
+
+
+    // Dashboardstaff
 
 Route::get('/dashboard/staff', [StaffDashboardController::class, 'index'])
     ->name('staff.dashboard');
-
-
 
     // Dashboard (FIXED: now uses the controller so the data is passed to the view)
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -206,12 +203,3 @@ Route::get('/dashboard/staff', [StaffDashboardController::class, 'index'])
 
 
 
-
-    // Location detail pages (moved inside auth group)
-    Route::get('/locations/details/{id}', function ($id) {
-        return view('locations.details', ['lockerId' => $id]);
-    })->name('locations.details');
-
-    Route::get('/locations/locker/{id}', function ($id) {
-        return view('locations.locker', ['lockerId' => $id]);
-    })->name('locations.locker');
