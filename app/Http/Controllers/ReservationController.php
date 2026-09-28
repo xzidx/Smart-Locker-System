@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\LockerUsage;
 
 class ReservationController extends Controller
 {
-    function index()
+    public function index()
     {
-        return view('reservation.index');
+        $reservations = LockerUsage::with(['user', 'locker.location'])->get();
+
+        return view('reservation.index', compact('reservations'));
     }
+public function show($id)
+{
+    $activeLocker = LockerUsage::with([
+        'user',
+        'locker.location'
+    ])->findOrFail($id);
+
+    return view('reservation.active_locker', compact('activeLocker'));
+}
 }

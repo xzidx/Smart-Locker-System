@@ -1,22 +1,76 @@
 @extends('layouts.app')
 
 @section('title', 'Reservation')
-
 @section('page-title', 'Reservation')
-
 @section('page-description', 'Manage your reservations')
+
 @section('content')
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <div class="p-8">
+<div class="max-w-[1080px] mx-auto px-4 py-6">
 
-        <h2 class="text-2xl font-bold text-[#0B1F3A]">
-            Welcome to the Smart Locker Reservations Page
-        </h2>
+    <h1 class="text-[32px] font-bold text-slate-900">My Reservations</h1>
+    <p class="text-[15px] text-slate-500 mt-3 mb-8">Manage your upcoming locker reservations.</p>
 
-        <p class="mt-2 text-gray-600">
-            Manage your smart lockers easily from this reservations page.
-        </p>
+    <div class="flex justify-between items-center mb-5">
+        <h2 class="text-[18px] font-bold text-slate-900">Upcoming</h2>
 
+        @if ($reservations->count() > 3)
+            <button onclick="viewAll()" id="viewAllButton" class="text-blue-600 text-sm font-semibold hover:text-blue-700">
+                View all
+            </button>
+        @endif
     </div>
 
+    @forelse ($reservations as $index => $reservation)
+        @if ($index < 3)
+            <x-reservation-card :usage="$reservation" />
+        @endif
+    @empty
+        <p class="text-slate-500 text-sm">No reservations yet.</p>
+    @endforelse
+
+    @if ($reservations->count() > 3)
+        <div id="moreReservations" class="hidden">
+            @foreach ($reservations as $index => $reservation)
+                @if ($index >= 3)
+                    <x-reservation-card :usage="$reservation" />
+                @endif
+            @endforeach
+        </div>
+    @endif
+
+</div>
+
+<!-- QR Modal -->
+<div id="qrModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+    <div class="bg-white rounded-[18px] w-full max-w-[320px] p-5 shadow-xl">
+        <div class="flex justify-center mb-4">
+            <div class="border border-gray-200 rounded-lg p-3">
+                <img src="{{ asset('images/qr-code.png') }}" alt="QR Code" class="w-[150px] h-[150px] object-contain">
+            </div>
+        </div>
+        <p class="text-center text-[13px] leading-5 text-slate-500 mb-4">
+            Show this QR code at the locker to access your reservation.
+        </p>
+        <button onclick="closeQR()" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-3 rounded-xl transition">
+            Close
+        </button>
+    </div>
+</div>
+
+<script>
+function viewAll() {
+    const moreReservations = document.getElementById('moreReservations');
+    const button = document.getElementById('viewAllButton');
+    moreReservations.classList.toggle('hidden');
+    button.textContent = moreReservations.classList.contains('hidden') ? 'View all' : 'View less';
+}
+function openQR() {
+    document.getElementById('qrModal').classList.remove('hidden');
+}
+function closeQR() {
+    document.getElementById('qrModal').classList.add('hidden');
+}
+</script>
 @endsection
