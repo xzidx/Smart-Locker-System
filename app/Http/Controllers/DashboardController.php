@@ -2,42 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Location;
+use App\Models\Locker;
+
 class DashboardController extends Controller
 {
     public function index()
     {
-        $locationCount = 4;
+        // Count locations
+        $locationCount = Location::count();
 
+        // Count lockers
+        $totalLockers = Locker::count();
+
+        $availableLockers = Locker::where('status', 'available')->count();
+
+        $occupiedLockers = Locker::where('status', 'occupied')->count();
+
+        // No reservation data for now
+        $reservationCount = 0;
+
+        // Dashboard statistics
         $stats = [
             [
-                'label' => 'Available Lockers',
-                'value' => 24,
-                'change' => '+12%',
-                'tone' => 'green',
-            ],
-            [
                 'label' => 'Total Lockers',
-                'value' => 50,
-                'change' => '+5%',
+                'value' => $totalLockers,
+                'change' => '',
                 'tone' => 'blue',
             ],
             [
-                'label' => 'Reservations',
-                'value' => 18,
-                'change' => '+8%',
-                'tone' => 'orange',
+                'label' => 'Available Lockers',
+                'value' => $availableLockers,
+                'change' => '',
+                'tone' => 'green',
             ],
             [
-                'label' => 'Locations',
-                'value' => 4,
-                'change' => '+2%',
+                'label' => 'Occupied Lockers',
+                'value' => $occupiedLockers,
+                'change' => '',
+                'tone' => 'red',
+            ],
+            [
+                'label' => 'Reservations',
+                'value' => $reservationCount,
+                'change' => '',
                 'tone' => 'purple',
             ],
         ];
 
-        $recentReservations = [];
+        // Empty for now
+        // Later we can get real reservations from database
+        $recentReservations = collect();
 
-        $nearbyLocations = [];
+        // Get locations with available locker count
+        $nearbyLocations = Location::withCount([
+            'lockers as available_lockers_count' => function ($query) {
+                $query->where('status', 'available');
+            }
+        ])
+        ->take(5)
+        ->get();
 
         return view('dashboard.index', compact(
             'locationCount',
