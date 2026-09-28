@@ -45,14 +45,109 @@ Route::get('/settings', function () {
     return view('settings.index');
 })->name('settings');
 
-
-// Login
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-
-// Register
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
+
+Route::get('/', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::post('/register', function () {
+    return 'Registration submitted!';
+})->name('register.store');
+
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->name('password.request');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Route::get(
+    '/reservation_checkout/{lockerId}',
+    [ReservationController::class, 'checkout']
+)->name('reservation.reservation_checkout');
