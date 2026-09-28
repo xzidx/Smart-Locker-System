@@ -6,6 +6,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LockerController;
 use App\Http\Controllers\LockerUsageController;
 use App\Http\Controllers\LockerMaintenanceController;
+use App\Http\Controllers\StaffDashboardController;
 
 // Authentication
 // Login page
@@ -34,13 +35,10 @@ Route::middleware('auth')->group(function () {
     return view('dashboard.index');
 })->name('dashboard');
 
-Route::get('/dashboard/staff', function () {
-    if (auth()->user()->role !== 'staff') {
-        abort(403);
-    }
+Route::get('/dashboard/staff', [StaffDashboardController::class, 'index'])
+    ->name('staff.dashboard');
 
-    return view('dashboard.staff');
-})->name('staff.dashboard');
+
     // Locations
     Route::resource('locations', LocationController::class);
     // Reservation
@@ -60,3 +58,146 @@ Route::get('/dashboard/staff', function () {
         return view('reservation_checkout.index');
     })->name('reservation_checkout');
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

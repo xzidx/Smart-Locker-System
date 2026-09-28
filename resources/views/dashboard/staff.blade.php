@@ -13,7 +13,7 @@
         <!-- Top Banner -->
         <div class="bg-[#0b1329] text-white p-6 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-lg">
             <div>
-                <h1 class="text-xl font-bold">Good morning, Alex</h1>
+                <h1 class="text-xl font-bold">Hi !   {{ auth()->user()->name }}</h1>
                 <p class="text-slate-400 text-sm mt-1">All systems are operational. 214 bookings are currently active across 8 locations.</p>
             </div>
             <button class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition flex items-center gap-2 shadow-sm">
@@ -29,7 +29,7 @@
                     Total Users
                     <span class="p-2.5 bg-blue-50 text-blue-600 rounded-xl"><i class="fa-solid fa-users"></i></span>
                 </div>
-                <div class="text-3xl font-bold text-slate-900 mt-2">2,846</div>
+                <div class="text-3xl font-bold text-slate-900 mt-2">{{ $totalUsers }}</div>
                 <div class="text-xs text-blue-600 font-semibold mt-2">+12.5%</div>
             </div>
 
@@ -39,7 +39,7 @@
                     Available Lockers
                     <span class="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl"><i class="fa-solid fa-lock-open"></i></span>
                 </div>
-                <div class="text-3xl font-bold text-slate-900 mt-2">384</div>
+                <div class="text-3xl font-bold text-slate-900 mt-2">{{ $availableLockers }}</div>
                 <div class="text-xs text-emerald-600 font-semibold mt-2">62% of fleet</div>
             </div>
 
@@ -49,14 +49,14 @@
                     Occupied Lockers
                     <span class="p-2.5 bg-rose-50 text-rose-600 rounded-xl"><i class="fa-solid fa-lock"></i></span>
                 </div>
-                <div class="text-3xl font-bold text-slate-900 mt-2">196</div>
+                <div class="text-3xl font-bold text-slate-900 mt-2">{{ $occupiedLockers }}</div>
                 <div class="text-xs text-rose-600 font-semibold mt-2">32% of fleet</div>
             </div>
 
             <!-- Active Bookings -->
             <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
                 <div class="flex justify-between items-start text-slate-500 text-sm">
-                    Active Bookings
+                    Maintenance Requests
                     <span class="p-2.5 bg-purple-50 text-purple-600 rounded-xl"><i class="fa-solid fa-calendar-check"></i></span>
                 </div>
                 <div class="text-3xl font-bold text-slate-900 mt-2">214</div>
@@ -172,7 +172,7 @@
         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
             <div class="p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-100">
                 <div>
-                    <h3 class="font-bold text-slate-800">Recent bookings</h3>
+                    <h3 class="font-bold text-slate-800">Recent Resevertion</h3>
                     <p class="text-xs text-slate-400">Latest locker activity and usage</p>
                 </div>
                 <button class="border border-slate-200 text-xs font-semibold px-3.5 py-2 rounded-xl hover:bg-slate-50 transition text-slate-600">View all bookings</button>
