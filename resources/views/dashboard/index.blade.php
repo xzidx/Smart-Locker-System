@@ -109,130 +109,92 @@
 
 
 
-            {{-- ========================================================= --}}
-            {{-- STAT CARDS --}}
-            {{-- ========================================================= --}}
+          {{-- STAT CARDS --}}
+<div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
 
-            <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    @foreach ($stats as $stat)
 
+        <x-dashboard.stat-card
+            :label="$stat['label']"
+            :value="$stat['value']"
+            :change="$stat['change']"
+            :tone="$stat['tone']"
+        >
 
-                {{-- TOTAL LOCKERS --}}
+            {{-- Total Lockers --}}
+            @if ($stat['label'] === 'Total Lockers')
 
-                <x-dashboard.stat-card
-                    :label="$stats[0]['label']"
-                    :value="$stats[0]['value']"
-                    :change="$stats[0]['change']"
-                    :tone="$stats[0]['tone']"
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
                 >
+                    <path
+                        fill="#2563eb"
+                        d="M16 17v2H2v-2s0-4 7-4s7 4 7 4m-3.5-9.5A3.5 3.5 0 1 0 9 11a3.5 3.5 0 0 0 0-7m3.44 5.5A5.32 5.32 0 0 1 18 17v2h4v-2s0-3.63-6.06-4M15 4a3.4 3.4 0 0 0-1.93.59a5 5 0 0 1 0 5.82A3.4 3.4 0 0 0 15 11a3.5 3.5 0 0 0 0-7"
+                    />
+                </svg>
 
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                    >
+            {{-- Available Lockers --}}
+            @elseif ($stat['label'] === 'Available Lockers')
 
-                        <path
-                            fill="#2563eb"
-                            d="M16 17v2H2v-2s0-4 7-4s7 4 7 4m-3.5-9.5A3.5 3.5 0 1 0 9 11a3.5 3.5 0 0 0 0-7m3.44 5.5A5.32 5.32 0 0 1 18 17v2h4v-2s0-3.63-6.06-4M15 4a3.4 3.4 0 0 0-1.93.59a5 5 0 0 1 0 5.82A3.4 3.4 0 0 0 15 11a3.5 3.5 0 0 0 0-7"
-                        />
-
-                    </svg>
-
-                </x-dashboard.stat-card>
-
-
-
-                {{-- AVAILABLE LOCKERS --}}
-
-                <x-dashboard.stat-card
-                    :label="$stats[1]['label']"
-                    :value="$stats[1]['value']"
-                    :change="$stats[1]['change']"
-                    :tone="$stats[1]['tone']"
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
                 >
-
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="22"
-                        height="22"
-                        viewBox="0 0 24 24"
+                    <g
+                        fill="none"
+                        stroke="#15803d"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
                     >
+                        <path d="M15 11h2a2 2 0 0 1 2 2v2m0 4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2h4"/>
 
-                        <g
-                            fill="none"
-                            stroke="#15803d"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="1.5"
-                        >
+                        <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0-2 0m-3-5V8m.719-3.289A4 4 0 0 1 16 7v4M3 3l18 18"/>
+                    </g>
+                </svg>
 
-                            <path d="M15 11h2a2 2 0 0 1 2 2v2m0 4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2h4"/>
+            {{-- Occupied Lockers --}}
+            @elseif ($stat['label'] === 'Occupied Lockers')
 
-                            <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0-2 0m-3-5V8m.719-3.289A4 4 0 0 1 16 7v4M3 3l18 18"/>
-
-                        </g>
-
-                    </svg>
-
-                </x-dashboard.stat-card>
-
-
-
-                {{-- OCCUPIED LOCKERS --}}
-
-                <x-dashboard.stat-card
-                    :label="$stats[2]['label']"
-                    :value="$stats[2]['value']"
-                    :change="$stats[2]['change']"
-                    :tone="$stats[2]['tone']"
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 15 15"
                 >
+                    <path
+                        fill="#dc2626"
+                        d="M14 1.5v12c0 .28-.22.5-.5.5h-12c-.28 0-.5-.22-.5-.5v-12c0-.28.22-.5.5-.5h12c.28 0 .5.22.5.5M13 5h-3v3h3zm-2 4h-1v1h1zm2 0h-1v1h1zM2 5v2h3V5zm0 3v2h3V8zm0 3v2h3v-2zm4 0v2h3v-2zm0-3v2h3V8zm0-3v2h3V5zm0-3v2h3V2zM5 2H2v2h3z"
+                    />
+                </svg>
 
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 15 15"
-                    >
+            {{-- Reservations --}}
+            @elseif ($stat['label'] === 'Reservations')
 
-                        <path
-                            fill="#dc2626"
-                            d="M14 1.5v12c0 .28-.22.5-.5.5h-12c-.28 0-.5-.22-.5-.5v-12c0-.28.22-.5.5-.5h12c.28 0 .5.22.5.5M13 5h-3v3h3zm-2 4h-1v1h1zm2 0h-1v1h1zM2 5v2h3V5zm0 3v2h3V8zm0 3v2h3v-2zm4 0v2h3v-2zm0-3v2h3V8zm0-3v2h3V5zm0-3v2h3V2zM5 2H2v2h3z"
-                        />
-
-                    </svg>
-
-                </x-dashboard.stat-card>
-
-
-
-                {{-- RESERVATIONS --}}
-
-                <x-dashboard.stat-card
-                    :label="$stats[3]['label']"
-                    :value="$stats[3]['value']"
-                    :change="$stats[3]['change']"
-                    :tone="$stats[3]['tone']"
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
                 >
+                    <path
+                        fill="#7c3aed"
+                        d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 16H5V9h14z"
+                    />
+                </svg>
 
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                    >
+            @endif
 
-                        <path
-                            fill="#7c3aed"
-                            d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 16H5V9h14z"
-                        />
+        </x-dashboard.stat-card>
 
-                    </svg>
+    @endforeach
 
-                </x-dashboard.stat-card>
-
-            </div>
-
+</div>
 
 
             {{-- ========================================================= --}}
