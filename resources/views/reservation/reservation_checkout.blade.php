@@ -3,30 +3,23 @@
 @section('title', 'Reserve Locker')
 
 @section('content')
+
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>@yield('title', 'Smart Locker')</title>
+    <title>Reserve Locker {{ $locker->name }}</title>
 
-    {{-- Tailwind CSS --}}
     <script src="https://cdn.tailwindcss.com"></script>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    {{-- Font Awesome --}}
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    >
-
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
 </head>
 
-<div class="p-8">
-
-    <body class="bg-[#f5f7fb]">
+<body class="bg-[#f5f7fb]">
 
     <div class="min-h-screen px-6 py-16">
 
@@ -145,6 +138,7 @@
 
 
                         {{-- DURATION --}}
+                        <div class="mb-4">
 
                             <label
                                 for="duration"
@@ -456,7 +450,8 @@
 
 </body>
 
-</div>
+</html>
+
 
 @endsection
 
