@@ -8,7 +8,7 @@ use App\Http\Controllers\LockerController;
 use App\Http\Controllers\LockerUsageController;
 use App\Http\Controllers\LockerMaintenanceController;
 use App\Http\Controllers\ReservationController;
-
+use App\Http\Controllers\ProfileController;
 
 // =====================================================
 // Dashboard
@@ -49,7 +49,82 @@ Route::resource('locker-usage', LockerUsageController::class);
 // Locker Maintenance
 // =====================================================
 
+
+ // =====================================================
+    // Profile
+    // ===================================================== 
 Route::resource('locker-maintenance', LockerMaintenanceController::class);
+
+Route::middleware(['auth'])->group(function () {
+   
+
+    Route::get('/settings/profile', [ProfileController::class, 'edit'])
+        ->name('setting.profile');
+
+    Route::put('/settings/profile', [ProfileController::class, 'update'])
+        ->name('setting.profile.update');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // =====================================================
