@@ -215,4 +215,3 @@ Route::get('/dashboard/staff', [StaffDashboardController::class, 'index'])
     Route::get('/locations/locker/{id}', function ($id) {
         return view('locations.locker', ['lockerId' => $id]);
     })->name('locations.locker');
-});
