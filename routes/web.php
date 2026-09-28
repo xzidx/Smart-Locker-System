@@ -7,6 +7,9 @@ use App\Http\Controllers\LockerController;
 use App\Http\Controllers\LockerUsageController;
 use App\Http\Controllers\LockerMaintenanceController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\LocationsManagementController;
+
+
 
 // Authentication
 // Login page
@@ -107,119 +110,8 @@ Route::get('/locations/locker/{id}', function ($id) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Reservation
+Route::resource('reservation', ReservationController::class);
+//locations-management
+Route::resource('locations-management', LocationsManagementController::class)
+    ->parameters(['locations-management' => 'location']);
