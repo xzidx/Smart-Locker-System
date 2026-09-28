@@ -1,21 +1,57 @@
-
 @extends('layouts.app')
 
 @section('title', 'Dashboard')
-
 @section('page-title', 'Dashboard overview')
-
 @section('page-description', 'Live system summary')
 
 @section('content')
+
+    {{-- Safe defaults --}}
+    @php
+        $locationCount = $locationCount ?? 0;
+
+        $recentReservations = $recentReservations ?? collect();
+
+        $nearbyLocations = $nearbyLocations ?? collect();
+
+        $stats = $stats ?? [
+            [
+                'label' => 'Total Lockers',
+                'value' => 0,
+                'change' => '',
+                'tone' => 'blue'
+            ],
+            [
+                'label' => 'Available Lockers',
+                'value' => 0,
+                'change' => '',
+                'tone' => 'green'
+            ],
+            [
+                'label' => 'Occupied Lockers',
+                'value' => 0,
+                'change' => '',
+                'tone' => 'red'
+            ],
+            [
+                'label' => 'Reservations',
+                'value' => 0,
+                'change' => '',
+                'tone' => 'purple'
+            ],
+        ];
+    @endphp
+
 
     <div class="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 px-4 py-8 sm:px-8">
 
         <div class="mx-auto max-w-6xl space-y-8">
 
-            {{-- =========================================================
-                HEADER
-            ========================================================== --}}
+
+            {{-- ========================================================= --}}
+            {{-- HEADER --}}
+            {{-- ========================================================= --}}
+
             <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 
                 <div>
@@ -30,16 +66,19 @@
 
                     <p class="mt-2 text-sm text-slate-500">
                         Live availability across
+
                         <span class="font-medium text-slate-700">
                             {{ $locationCount }}
                         </span>
+
                         secure locations.
                     </p>
 
                 </div>
 
 
-                {{-- SYSTEM STATUS --}}
+                {{-- System status --}}
+
                 <div class="hidden sm:block">
 
                     <div class="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-500 shadow-sm">
@@ -55,10 +94,12 @@
             </div>
 
 
-            {{-- =========================================================
-                SEARCH
-            ========================================================== --}}
-            <div class="">
+
+            {{-- ========================================================= --}}
+            {{-- SEARCH --}}
+            {{-- ========================================================= --}}
+
+            <div>
 
                 <x-dashboard.search-bar
                     :action="route('dashboard')"
@@ -67,13 +108,16 @@
             </div>
 
 
-            {{-- =========================================================
-                STAT CARDS
-            ========================================================== --}}
+
+            {{-- ========================================================= --}}
+            {{-- STAT CARDS --}}
+            {{-- ========================================================= --}}
+
             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
 
 
-                {{-- TOTAL USERS --}}
+                {{-- TOTAL LOCKERS --}}
+
                 <x-dashboard.stat-card
                     :label="$stats[0]['label']"
                     :value="$stats[0]['value']"
@@ -87,16 +131,20 @@
                         height="20"
                         viewBox="0 0 24 24"
                     >
+
                         <path
                             fill="#2563eb"
-                            d="M16 17v2H2v-2s0-4 7-4s7 4 7 4m-3.5-9.5A3.5 3.5 0 1 0 9 11a3.5 3.5 0 0 0 3.5-3.5m3.44 5.5A5.32 5.32 0 0 1 18 17v2h4v-2s0-3.63-6.06-4M15 4a3.4 3.4 0 0 0-1.93.59a5 5 0 0 1 0 5.82A3.4 3.4 0 0 0 15 11a3.5 3.5 0 0 0 0-7"
+                            d="M16 17v2H2v-2s0-4 7-4s7 4 7 4m-3.5-9.5A3.5 3.5 0 1 0 9 11a3.5 3.5 0 0 0 0-7m3.44 5.5A5.32 5.32 0 0 1 18 17v2h4v-2s0-3.63-6.06-4M15 4a3.4 3.4 0 0 0-1.93.59a5 5 0 0 1 0 5.82A3.4 3.4 0 0 0 15 11a3.5 3.5 0 0 0 0-7"
                         />
+
                     </svg>
 
                 </x-dashboard.stat-card>
 
 
+
                 {{-- AVAILABLE LOCKERS --}}
+
                 <x-dashboard.stat-card
                     :label="$stats[1]['label']"
                     :value="$stats[1]['value']"
@@ -110,6 +158,7 @@
                         height="22"
                         viewBox="0 0 24 24"
                     >
+
                         <g
                             fill="none"
                             stroke="#15803d"
@@ -117,16 +166,21 @@
                             stroke-linejoin="round"
                             stroke-width="1.5"
                         >
+
                             <path d="M15 11h2a2 2 0 0 1 2 2v2m0 4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2h4"/>
 
                             <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0-2 0m-3-5V8m.719-3.289A4 4 0 0 1 16 7v4M3 3l18 18"/>
+
                         </g>
+
                     </svg>
 
                 </x-dashboard.stat-card>
 
 
+
                 {{-- OCCUPIED LOCKERS --}}
+
                 <x-dashboard.stat-card
                     :label="$stats[2]['label']"
                     :value="$stats[2]['value']"
@@ -140,16 +194,20 @@
                         height="20"
                         viewBox="0 0 15 15"
                     >
+
                         <path
                             fill="#dc2626"
                             d="M14 1.5v12c0 .28-.22.5-.5.5h-12c-.28 0-.5-.22-.5-.5v-12c0-.28.22-.5.5-.5h12c.28 0 .5.22.5.5M13 5h-3v3h3zm-2 4h-1v1h1zm2 0h-1v1h1zM2 5v2h3V5zm0 3v2h3V8zm0 3v2h3v-2zm4 0v2h3v-2zm0-3v2h3V8zm0-3v2h3V5zm0-3v2h3V2zM5 2H2v2h3z"
                         />
+
                     </svg>
 
                 </x-dashboard.stat-card>
 
 
+
                 {{-- RESERVATIONS --}}
+
                 <x-dashboard.stat-card
                     :label="$stats[3]['label']"
                     :value="$stats[3]['value']"
@@ -163,10 +221,12 @@
                         height="20"
                         viewBox="0 0 24 24"
                     >
+
                         <path
                             fill="#7c3aed"
                             d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 16H5V9h14z"
                         />
+
                     </svg>
 
                 </x-dashboard.stat-card>
@@ -174,10 +234,11 @@
             </div>
 
 
-            {{-- =========================================================
-                RECENT RESERVATIONS
-                FULL WIDTH / BLOCK
-            ========================================================== --}}
+
+            {{-- ========================================================= --}}
+            {{-- RECENT RESERVATIONS --}}
+            {{-- ========================================================= --}}
+
             <div class="block">
 
                 <div class="mb-3 flex items-center justify-between">
@@ -186,28 +247,37 @@
                         Recent reservations
                     </h2>
 
-                    <a
-                        href="{{ route('reservations.index') }}"
-                        class="text-xs font-medium text-blue-600 transition hover:text-blue-700"
-                    >
-                        View all &rarr;
-                    </a>
+
+                    {{-- No reservation page yet --}}
+
+                    <span class="text-xs font-medium text-slate-400">
+                        No reservations
+                    </span>
 
                 </div>
 
 
                 <div class="overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-sm">
 
+
                     @forelse ($recentReservations as $reservation)
 
                         <x-dashboard.reservation-item
-                            :title="$reservation->locker->location->name . ' · Locker ' . $reservation->locker->name"
+
+                            :title="($reservation->locker?->location?->name ?? 'Unknown location') . ' · Locker ' . ($reservation->locker?->name ?? '-')"
+
                             :time="$reservation->time_range_label"
+
                             :status="ucfirst($reservation->status)"
+
                             :last="$loop->last"
+
                         />
 
                     @empty
+
+
+                        {{-- Empty reservation state --}}
 
                         <div class="flex flex-col items-center justify-center px-4 py-12 text-center">
 
@@ -222,14 +292,18 @@
                                     stroke="#94a3b8"
                                     stroke-width="1.5"
                                 >
+
                                     <path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 16H5V9h14z"/>
+
                                 </svg>
 
                             </div>
 
+
                             <p class="text-sm font-medium text-slate-500">
                                 No reservations yet
                             </p>
+
 
                             <p class="mt-1 text-xs text-slate-400">
                                 Reserve a locker to see it appear here.
@@ -244,10 +318,11 @@
             </div>
 
 
-            {{-- =========================================================
-                NEARBY LOCATIONS
-                FULL WIDTH / BLOCK
-            ========================================================== --}}
+
+            {{-- ========================================================= --}}
+            {{-- NEARBY LOCATIONS --}}
+            {{-- ========================================================= --}}
+
             <div class="block">
 
                 <div class="mb-3 flex items-center justify-between">
@@ -255,6 +330,7 @@
                     <h2 class="text-sm font-semibold text-slate-900">
                         Nearby locations
                     </h2>
+
 
                     <a
                         href="{{ route('locations.index') }}"
@@ -268,23 +344,31 @@
 
                 <div class="space-y-3">
 
+
                     @forelse ($nearbyLocations as $location)
 
                         <a
-                            href="{{ route('locations.find-locker', $location->id) }}"
+                            href="{{ route('locations.show', $location->id) }}"
                             class="block rounded-[20px] transition duration-200 hover:-translate-y-0.5 hover:shadow-md"
                         >
 
                             <x-dashboard.location-card
+
                                 :name="$location->name"
+
                                 :address="$location->address"
+
                                 :hours="$location->hours_label"
+
                                 :available="$location->available_lockers_count"
+
                             />
 
                         </a>
 
+
                     @empty
+
 
                         <div class="rounded-[20px] border border-dashed border-slate-200 bg-white px-4 py-10 text-center">
 
@@ -294,11 +378,14 @@
 
                         </div>
 
+
                     @endforelse
+
 
                 </div>
 
             </div>
+
 
         </div>
 
