@@ -7,6 +7,7 @@ use App\Http\Controllers\LockerController;
 use App\Http\Controllers\LockerUsageController;
 use App\Http\Controllers\LockerMaintenanceController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 
 // Authentication
 Route::get('/', function () {
@@ -21,16 +22,16 @@ Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
 })->name('password.request');
 
-// Protected pages (user must be logged in)
 Route::middleware('auth')->group(function () {
 
-    // Dashboard (FIXED: now uses the controller so the data is passed to the view)
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
 
     // Locations
     Route::resource('locations', LocationController::class);
 
-    // Reservation (route names: reservation.index, reservation.show, ...)
+    // Reservation
     Route::resource('reservation', LockerUsageController::class);
 
     // Lockers
@@ -42,17 +43,21 @@ Route::middleware('auth')->group(function () {
     // Locker Maintenance
     Route::resource('locker_maintenance', LockerMaintenanceController::class);
 
-    // Settings
-    Route::get('/settings', function () {
-        return view('settings.index');
-    })->name('settings');
+    Route::get('/settings', [ProfileController::class, 'index'])
+    ->name('settings');
+
+Route::get('/settings/profile/edit', [ProfileController::class, 'edit'])
+    ->name('settings.profile.edit');
+
+Route::put('/settings/profile', [ProfileController::class, 'update'])
+    ->name('settings.profile.update');
 
     // Reservation Checkout
     Route::get('/reservation_checkout', function () {
         return view('reservation_checkout.index');
     })->name('reservation_checkout');
 
-    // Location detail pages (moved inside auth group)
+    // Location detail pages
     Route::get('/locations/details/{id}', function ($id) {
         return view('locations.details', ['lockerId' => $id]);
     })->name('locations.details');
@@ -60,4 +65,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/locations/locker/{id}', function ($id) {
         return view('locations.locker', ['lockerId' => $id]);
     })->name('locations.locker');
+
 });
