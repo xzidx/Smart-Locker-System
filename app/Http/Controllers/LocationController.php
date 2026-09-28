@@ -78,4 +78,5 @@ class LocationController extends Controller
             ->route('locations.index')
             ->with('success', 'Location deleted successfully.');
     }
+    
 }
