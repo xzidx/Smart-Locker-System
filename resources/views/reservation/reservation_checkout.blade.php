@@ -145,7 +145,6 @@
 
 
                         {{-- DURATION --}}
-                        <div class="mb-4">
 
                             <label
                                 for="duration"

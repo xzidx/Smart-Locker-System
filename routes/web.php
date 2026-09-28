@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
     // Locations
     Route::resource('locations', LocationController::class);
     // Reservation
-    Route::resource('reservation', LockerUsageController::class);
+    Route::resource('reservation', ReservationController::class);
     // Lockers
     Route::resource('lockers', LockerController::class);
     // Locker Usage
@@ -49,9 +49,10 @@ Route::middleware('auth')->group(function () {
         return view('settings.index');
     })->name('settings');
     // Reservation Checkout
-    Route::get('/reservation_checkout', function () {
-        return view('reservation_checkout.index');
-    })->name('reservation_checkout');
+    Route::get(
+        '/reservation_checkout/{lockerId}',
+        [ReservationController::class, 'checkout']
+    )->name('reservation.reservation_checkout');
 });
 
 
@@ -147,10 +148,6 @@ Route::get('/locations/locker/{id}', function ($id) {
 
 
 
-Route::get(
-    '/reservation_checkout/{lockerId}',
-    [ReservationController::class, 'checkout']
-)->name('reservation.reservation_checkout');
 
 
 
