@@ -147,7 +147,10 @@ Route::get('/locations/locker/{id}', function ($id) {
 
 
 
-
+Route::get(
+    '/reservation_checkout/{lockerId}',
+    [ReservationController::class, 'checkout']
+)->name('reservation.reservation_checkout');
 
 
 
