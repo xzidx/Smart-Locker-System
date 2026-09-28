@@ -7,9 +7,7 @@
            md:translate-x-0"
 >
 
-   
     <!-- Logo -->
-    
     <div class="p-6">
 
         <h1 class="hidden text-2xl font-bold md:block">
@@ -22,12 +20,13 @@
 
     </div>
 
+
     <!-- Navigation -->
     <nav class="mt-6 flex-1 space-y-2">
 
         <!-- Dashboard -->
         <a
-            href="/dashboard"
+            href="{{ route('dashboard') }}"
             class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
         >
             <i class="fa-solid fa-house w-5"></i>
@@ -37,9 +36,10 @@
             </span>
         </a>
 
+
         <!-- Locations -->
         <a
-            href="/locations"
+            href="{{ route('locations.index') }}"
             class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
         >
             <i class="fa-solid fa-location-dot w-5"></i>
@@ -49,21 +49,86 @@
             </span>
         </a>
 
-        <!-- Reservation -->
-        <a
-            href="/reservation"
-            class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
-        >
-            <i class="fa-solid fa-calendar-check w-5"></i>
 
-            <span>
-                Reservation
-            </span>
-        </a>
+        @if(auth()->user()->role === 'user')
+
+            <!-- Reservation -->
+            <a
+                href="{{ route('reservation.index') }}"
+                class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
+            >
+                <i class="fa-solid fa-calendar-check w-5"></i>
+
+                <span>
+                    Reservation
+                </span>
+            </a>
+
+        @endif
+
+        <!-- =================================================
+             STAFF ONLY MENUS
+        ================================================== -->
+
+        @if(auth()->user()->role === 'staff')
+
+            <!-- Lockers -->
+            <a
+                href="{{ route('lockers.index') }}"
+                class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
+            >
+                <i class="fa-solid fa-lock w-5"></i>
+
+                <span>
+                    Lockers
+                </span>
+            </a>
+
+
+            <!-- Locker Usage -->
+            <a
+                href="{{ route('locker_usage.index') }}"
+                class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
+            >
+                <i class="fa-solid fa-clipboard-list w-5"></i>
+
+                <span>
+                    Locker Usage
+                </span>
+            </a>
+
+
+            <!-- Maintenance -->
+            <a
+                href="{{ route('locker_maintenance.index') }}"
+                class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
+            >
+                <i class="fa-solid fa-screwdriver-wrench w-5"></i>
+
+                <span>
+                    Maintenance
+                </span>
+            </a>
+
+
+            <!-- Users -->
+            <a
+                href="#"
+                class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
+            >
+                <i class="fa-solid fa-users w-5"></i>
+
+                <span>
+                    Users
+                </span>
+            </a>
+
+        @endif
+
 
         <!-- Settings -->
         <a
-            href="/settings"
+            href="{{ route('settings') }}"
             class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
         >
             <i class="fa-solid fa-gear w-5"></i>
@@ -74,6 +139,7 @@
         </a>
 
     </nav>
+
 
     <!-- Help section -->
     <div class="m-6 rounded-xl bg-[#132D50] p-4">
@@ -88,4 +154,32 @@
 
     </div>
 
+
+    <!-- Logout -->
+    <div class="px-6 pb-6">
+
+        <form method="POST" action="{{ route('logout') }}">
+
+            @csrf
+
+            <button
+                type="submit"
+                class="flex w-full items-center gap-3 rounded-lg
+                       px-4 py-3 text-left text-white
+                       transition hover:bg-red-500"
+            >
+
+                <i class="fa-solid fa-right-from-bracket w-5"></i>
+
+                <span>
+                    Logout
+                </span>
+
+            </button>
+
+        </form>
+
+    </div>
+
 </aside>
+
