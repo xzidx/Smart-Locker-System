@@ -117,7 +117,7 @@
 
             <!-- Users -->
             <a
-                href="#"
+                href="{{ route('users-management.index') }}"
                 class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
             >
                 <i class="fa-solid fa-users w-5"></i>

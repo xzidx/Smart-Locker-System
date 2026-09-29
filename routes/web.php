@@ -12,7 +12,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReservationCheckoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LocationsManagementController;
-
+use App\Http\Controllers\UsersManagementController;
 // Authentication
 Route::get('/', function () {
     return redirect()->route('login');
@@ -98,8 +98,12 @@ Route::put('/settings/profile', [ProfileController::class, 'update'])
         ->name('locations-management.destroy');
 
 });
-
-
+    Route::get('/staff/users', [UsersManagementController::class, 'index'])
+    ->name('users-management.index');
+    Route::resource(
+    'staff/users',
+        UsersManagementController::class
+    )->names('users-management');
 
 
 
