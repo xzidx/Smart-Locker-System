@@ -24,7 +24,6 @@ Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
 })->name('password.request');
 
-// Protected pages (user must be logged in)
 Route::middleware('auth')->group(function () {
 
 
@@ -51,10 +50,14 @@ Route::get('/dashboard/staff', [StaffDashboardController::class, 'index'])
     // Locker Maintenance
     Route::resource('locker_maintenance', LockerMaintenanceController::class);
 
-    // Settings
-    Route::get('/settings', function () {
-        return view('settings.index');
-    })->name('settings');
+    Route::get('/settings', [ProfileController::class, 'index'])
+    ->name('settings');
+
+Route::get('/settings/profile/edit', [ProfileController::class, 'edit'])
+    ->name('settings.profile.edit');
+
+Route::put('/settings/profile', [ProfileController::class, 'update'])
+    ->name('settings.profile.update');
 
    // Reservation Checkout
     Route::get(
