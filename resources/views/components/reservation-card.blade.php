@@ -43,11 +43,10 @@
 
         <!-- Date -->
         <p class="text-[15px] text-slate-500">
-            {{ $usage->start_time->format('d M') }} •
-            {{ $usage->start_time->format('gA') }} -
-            {{ $usage->end_time?->format('gA') ?? '?' }}
+            {{ \Carbon\Carbon::parse($usage->start_time)->format('d M') }} •
+            {{ \Carbon\Carbon::parse($usage->start_time)->format('gA') }} -
+            {{ $usage->end_time ? \Carbon\Carbon::parse($usage->end_time)->format('gA') : '?' }}
         </p>
-
         <!-- Status -->
         <span class="w-fit px-3 py-1.5 rounded-full {{ $statusStyles }} text-xs font-semibold">
             Status: {{ ucfirst($usage->status) }}

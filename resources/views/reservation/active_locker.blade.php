@@ -26,7 +26,7 @@
                         <line x1="9" y1="3" x2="9" y2="21" stroke-width="2" />
                         <circle cx="7" cy="12" r="0.5" fill="currentColor" />
                     </svg>
-                    {{ $activeLocker->locker->name }}
+                    {{ $reservation->locker->name }}
                 </h1>
 
                 <div class="mt-3 text-[15px] text-slate-500 space-y-1">
@@ -37,7 +37,7 @@
                             <path stroke-width="2" d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0z" />
                             <circle cx="12" cy="10" r="2.5" />
                         </svg>
-                        {{ $activeLocker->locker->location->name ?? '-' }}
+                        {{ $reservation->locker->location->name ?? '-' }}
                     </p>
 
                     <!-- Building -->
@@ -49,7 +49,7 @@
                             <line x1="9" y1="11" x2="11" y2="11" stroke-width="2" />
                             <line x1="13" y1="11" x2="15" y2="11" stroke-width="2" />
                         </svg>
-                        {{ $activeLocker->locker->location->building ?? '-' }}
+                        {{ $reservation->locker->location->building ?? '-' }}
                     </p>
 
                     <!-- Floor -->
@@ -59,7 +59,7 @@
                             <path stroke-width="2" d="M4 12l8 4 8-4" />
                             <path stroke-width="2" d="M4 16l8 4 8-4" />
                         </svg>
-                        {{ $activeLocker->locker->location->floor ?? '-' }} Floor
+                        {{ $reservation->locker->location->floor ?? '-' }} Floor
                     </p>
 
                 </div>
@@ -67,7 +67,7 @@
 
             <!-- Status Badge -->
             <span class="h-fit px-3 py-1.5 rounded-full bg-green-50 text-green-600 text-xs font-semibold">
-                {{ strtoupper($activeLocker->status) }}
+                {{ strtoupper($reservation->status) }}
             </span>
         </div>
     </div>
@@ -84,7 +84,7 @@
                 <line x1="8" y1="3" x2="8" y2="7" stroke-width="2" />
                 <line x1="16" y1="3" x2="16" y2="7" stroke-width="2" />
             </svg>
-            {{ $activeLocker->start_time->format('d F Y') }}
+             {{ \Carbon\Carbon::parse($reservation->start_time)->format('d F Y') }}
         </p>
 
         <!-- Time -->
@@ -93,8 +93,8 @@
                 <circle cx="12" cy="12" r="9" stroke-width="2" />
                 <path stroke-width="2" d="M12 7v5l3 2" />
             </svg>
-            {{ $activeLocker->start_time->format('g:i A') }} -
-            {{ $activeLocker->end_time?->format('g:i A') ?? '?' }}
+           {{ \Carbon\Carbon::parse($reservation->start_time)->format('g:i A') }}
+            {{ \Carbon\Carbon::parse($reservation->end_time)->format('g:i A') ?? '?' }}
         </p>
     </div>
 
@@ -109,18 +109,40 @@
             Open Locker
         </button>
 
-        <button class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <rect x="4" y="10" width="16" height="11" rx="2" stroke-width="2" />
-                <path stroke-width="2" d="M8 10V7a4 4 0 0 1 8 0v3" />
-            </svg>
-            Release Locker
-        </button>
+        <!-- Delete -->
+        <form
+            action="{{ route('reservation.destroy', $reservation->id) }}"
+            method="POST"
+            onsubmit="return confirm('Are you sure you want to release this locker?')"
+        >
+            @csrf
+            @method('DELETE')
+
+            <button
+                type="submit"
+                class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2"
+            >
+                <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <rect x="4" y="10" width="16" height="11" rx="2" />
+                    <path
+                        stroke-width="2"
+                        d="M8 10V7a4 4 0 0 1 8 0v3"
+                    />
+                </svg>
+
+                Release Locker
+            </button>
+        </form>
     </div>
 
     <!-- Reservation ID -->
     <p class="text-sm text-slate-500 mt-6">
-        Reservation ID: RES-{{ str_pad($activeLocker->id, 3, '0', STR_PAD_LEFT) }}
+        Reservation ID: RES-{{ str_pad($reservation->id, 3, '0', STR_PAD_LEFT) }}
     </p>
 
 </div>

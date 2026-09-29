@@ -9,6 +9,7 @@ use App\Http\Controllers\LockerMaintenanceController;
 use App\Http\Controllers\StaffDashboardController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ReservationCheckoutController;
 
 // Authentication
 Route::get('/', function () {

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Location;
 use App\Models\Locker;
 use App\Models\Reservation;
+use App\Models\LockerUsage;
 
 class ReservationController extends Controller
 {
@@ -87,11 +88,22 @@ class ReservationController extends Controller
     }
 public function show($id)
 {
-    $activeLocker = LockerUsage::with([
+    $reservation = Reservation::with([
         'user',
         'locker.location'
     ])->findOrFail($id);
 
-    return view('reservation.active_locker', compact('activeLocker'));
+    return view('reservation.active_locker', compact('reservation'));
+}
+
+public function destroy($id)
+{
+    $reservation = Reservation::findOrFail($id);
+
+    $reservation->delete();
+
+    return redirect()
+        ->route('reservation.index')
+        ->with('success', 'Locker released successfully!');
 }
 }
