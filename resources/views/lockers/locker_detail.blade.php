@@ -278,7 +278,7 @@
                             <i class="fa-solid fa-lock text-sm"></i>
 
                             <span>
-                                Reserve Locker {{ $locker->name }}
+                                Booking {{ $locker->name }}
                             </span>
 
                         </button>

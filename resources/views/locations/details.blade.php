@@ -10,7 +10,6 @@
 
 <div class="p-8">
 
-```
 <div class="w-full space-y-5 pb-8">
 
     {{-- LOCATION INFORMATION --}}
@@ -80,7 +79,7 @@
                 <div class="flex items-center justify-between">
 
                     <h3 class="text-lg font-bold text-slate-900">
-                        Locker Details & Selection
+                        Locker Details
                     </h3>
 
                     <span
@@ -183,14 +182,11 @@
                             @if($isAvailable)
 
                                 {{-- AVAILABLE LOCKER --}}
-                                <button
-                                    type="button"
-                                    data-id="{{ $locker->id }}"
-                                    data-name="{{ $locker->name }}"
-                                    data-status="{{ $locker->status }}"
-                                    class="locker-btn flex flex-col items-center justify-center py-3 px-2 rounded-xl border
-                                    border-slate-200 bg-white hover:border-[#2563EB] hover:bg-blue-50/30 cursor-pointer
-                                    transition-all text-center group"
+                                <a
+                                    href="{{ route('lockers.show', $locker->id) }}"
+                                    class="flex flex-col items-center justify-center py-3 px-2 rounded-xl border
+                                    border-slate-200 bg-white hover:border-[#2563EB] hover:bg-blue-50/30
+                                    cursor-pointer transition-all text-center group"
                                 >
 
                                     <i
@@ -205,14 +201,12 @@
                                         {{ ucfirst($locker->status) }}
                                     </span>
 
-                                </button>
+                                </a>
 
                             @else
 
                                 {{-- UNAVAILABLE LOCKER --}}
-                                <button
-                                    type="button"
-                                    disabled
+                                <div
                                     class="flex flex-col items-center justify-center py-3 px-2 rounded-xl border
                                     border-red-100 bg-red-50 cursor-not-allowed opacity-60
                                     transition-all text-center"
@@ -230,7 +224,7 @@
                                         {{ ucfirst($locker->status) }}
                                     </span>
 
-                                </button>
+                                </div>
 
                             @endif
 
@@ -276,128 +270,12 @@
 
             </div>
 
-
-            {{-- RESERVE --}}
-            <button
-                type="button"
-                id="reserve-btn"
-                disabled
-                class="w-full py-3.5 bg-gray-300 text-gray-500 font-bold rounded-xl shadow-sm transition-all text-sm flex items-center justify-center space-x-2 cursor-not-allowed"
-            >
-
-                <i class="fa-solid fa-lock-open text-sm"></i>
-
-                <span>Select Locker to Reserve</span>
-
-            </button>
-
         </div>
 
     </div>
 
 </div>
-```
 
 </div>
-
-{{-- JAVASCRIPT --}}
-
-<script>
-
-document.addEventListener('DOMContentLoaded', function () {
-
-    const lockerBtns = document.querySelectorAll('.locker-btn');
-
-    const reserveBtn = document.getElementById('reserve-btn');
-
-    let selectedLocker = null;
-
-
-    lockerBtns.forEach(function (btn) {
-
-        btn.addEventListener('click', function () {
-
-            /*
-            |--------------------------------------------------------------------------
-            | Get Locker Information
-            |--------------------------------------------------------------------------
-            */
-
-            const lockerId = btn.getAttribute('data-id');
-            const lockerName = btn.getAttribute('data-name');
-
-            selectedLocker = lockerId;
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Highlight Selected Locker
-            |--------------------------------------------------------------------------
-            */
-
-            lockerBtns.forEach(function (b) {
-
-                b.classList.remove(
-                    'border-[#2563EB]',
-                    'bg-blue-50/50',
-                    'ring-2',
-                    'ring-[#2563EB]'
-                );
-
-            });
-
-
-            btn.classList.add(
-                'border-[#2563EB]',
-                'bg-blue-50/50',
-                'ring-2',
-                'ring-[#2563EB]'
-            );
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Enable Reserve Button
-            |--------------------------------------------------------------------------
-            */
-
-            reserveBtn.disabled = false;
-
-            reserveBtn.classList.remove(
-                'bg-gray-300',
-                'text-gray-500',
-                'cursor-not-allowed'
-            );
-
-            reserveBtn.classList.add(
-                'bg-[#2563EB]',
-                'text-white',
-                'hover:bg-blue-700',
-                'cursor-pointer'
-            );
-
-
-            reserveBtn.innerHTML =
-                '<i class="fa-solid fa-lock text-sm"></i>' +
-                '<span>Reserve Locker ' +
-                lockerName +
-                ' (Free)</span>';
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Open Locker Details
-            |--------------------------------------------------------------------------
-            */
-
-            window.location.href = "{{ url('/lockers') }}/" + lockerId;
-
-        });
-
-    });
-
-});
-
-</script>
 
 @endsection
