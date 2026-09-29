@@ -13,6 +13,8 @@ use App\Http\Controllers\ReservationCheckoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LocationsManagementController;
 use App\Http\Controllers\UsersManagementController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminStaffController;
 // Authentication
 Route::get('/', function () {
     return redirect()->route('login');
@@ -104,10 +106,16 @@ Route::put('/settings/profile', [ProfileController::class, 'update'])
     'staff/users',
         UsersManagementController::class
     )->names('users-management');
+    // admin
+    Route::get('/dashboard/admin', [AdminDashboardController::class, 'index'])
+    ->name('admin.dashboard');
 
+    // admin make acc
+    Route::get('/admin/staff/create', [AdminStaffController::class, 'create'])
+    ->name('admin.staff.create');
 
-
-
+    Route::post('/admin/staff', [AdminStaffController::class, 'store'])
+    ->name('admin.staff.store');
 
 
 

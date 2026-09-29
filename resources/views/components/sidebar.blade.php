@@ -26,9 +26,11 @@
 
         <!-- Dashboard -->
         <a
-            href="{{ auth()->user()->role === 'staff'
-                ? route('staff.dashboard')
-                : route('dashboard') }}"
+            href="{{ auth()->user()->role === 'admin'
+                ? route('admin.dashboard')
+                : (auth()->user()->role === 'staff'
+                    ? route('staff.dashboard')
+                    : route('dashboard')) }}"
             class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
         >
             <i class="fa-solid fa-house w-5"></i>
@@ -41,9 +43,9 @@
 
         <!-- Locations -->
         <a
-            href="{{ auth()->user()->role === 'staff'
-                 ? route('locations-management.index')
-                 : route('locations.index') }}"
+            href="{{ in_array(auth()->user()->role, ['staff', 'admin'])
+                ? route('locations-management.index')
+                : route('locations.index') }}"
             class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
         >
             <i class="fa-solid fa-location-dot w-5"></i>
@@ -54,9 +56,9 @@
         </a>
 
 
+        <!-- User Reservation -->
         @if(auth()->user()->role === 'user')
 
-            <!-- Reservation -->
             <a
                 href="{{ route('reservation.index') }}"
                 class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
@@ -70,11 +72,12 @@
 
         @endif
 
+
         <!-- =================================================
-             STAFF ONLY MENUS
+             STAFF + ADMIN MENUS
         ================================================== -->
 
-        @if(auth()->user()->role === 'staff')
+        @if(in_array(auth()->user()->role, ['staff', 'admin']))
 
             <!-- Lockers -->
             <a
@@ -130,6 +133,24 @@
         @endif
 
 
+        <!-- Admin Only -->
+        @if(auth()->user()->role === 'admin')
+
+            <!-- Add Staff -->
+            <a
+                href="{{ route('admin.staff.create') }}"
+                class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
+            >
+                <i class="fa-solid fa-user-plus w-5"></i>
+
+                <span>
+                    Add Staff
+                </span>
+            </a>
+
+        @endif
+
+
         <!-- Settings -->
         <a
             href="{{ route('settings') }}"
@@ -162,7 +183,10 @@
     <!-- Logout -->
     <div class="px-6 pb-6">
 
-        <form method="POST" action="{{ route('logout') }}">
+        <form
+            method="POST"
+            action="{{ route('logout') }}"
+        >
 
             @csrf
 
@@ -186,4 +210,3 @@
     </div>
 
 </aside>
-
