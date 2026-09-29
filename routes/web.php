@@ -10,6 +10,7 @@ use App\Http\Controllers\StaffDashboardController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReservationCheckoutController;
+use App\Http\Controllers\ProfileController;
 
 // Authentication
 Route::get('/', function () {
