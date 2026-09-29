@@ -269,20 +269,16 @@
 
                     <div class="bg-white border border-slate-200 rounded-xl p-6">
 
-                        <button
-                            type="button"
-                            id="reserve-btn"
+                        <a
+                            href="{{ route('reservation.checkout', $locker->id) }}"
                             class="w-full py-4 bg-[#2563EB] hover:bg-blue-700 text-white font-bold rounded-xl text-sm uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
                         >
-
                             <i class="fa-solid fa-lock text-sm"></i>
-
                             <span>
                                 Booking {{ $locker->name }}
                             </span>
-
-                        </button>
-
+                        </a>
+                                                    
                     </div>
 
                 @else
@@ -346,40 +342,6 @@
 </div>
 
 
-<!-- JavaScript -->
 
-<script>
-
-document.addEventListener('DOMContentLoaded', function () {
-
-    const reserveBtn = document.getElementById('reserve-btn');
-
-    if (reserveBtn) {
-
-        reserveBtn.addEventListener('click', function () {
-
-            reserveBtn.innerHTML =
-                '<i class="fa-solid fa-circle-check text-sm"></i>' +
-                '<span>Locker {{ $locker->name }} Selected</span>';
-
-            reserveBtn.classList.remove(
-                'bg-[#2563EB]',
-                'hover:bg-blue-700'
-            );
-
-            reserveBtn.classList.add(
-                'bg-emerald-600',
-                'cursor-default'
-            );
-
-            reserveBtn.disabled = true;
-
-        });
-
-    }
-
-});
-
-</script>
 
 @endsection

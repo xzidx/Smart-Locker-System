@@ -8,6 +8,7 @@ use App\Http\Controllers\LockerUsageController;
 use App\Http\Controllers\LockerMaintenanceController;
 use App\Http\Controllers\StaffDashboardController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReservationController;
 
 // Authentication
 Route::get('/', function () {
@@ -38,7 +39,7 @@ Route::get('/dashboard/staff', [StaffDashboardController::class, 'index'])
     Route::resource('locations', LocationController::class);
 
     // Reservation (route names: reservation.index, reservation.show, ...)
-    Route::resource('reservation', LockerUsageController::class);
+    Route::resource('reservation', ReservationController::class);
 
     // Lockers
     Route::resource('lockers', LockerController::class);
@@ -54,11 +55,11 @@ Route::get('/dashboard/staff', [StaffDashboardController::class, 'index'])
         return view('settings.index');
     })->name('settings');
 
-    // Reservation Checkout
+   // Reservation Checkout
     Route::get(
         '/reservation_checkout/{lockerId}',
         [ReservationController::class, 'checkout']
-    )->name('reservation.reservation_checkout');
+    )->name('reservation.checkout');
 });
 
 
