@@ -69,41 +69,126 @@
             
             <!-- Locker Usage Card -->
             <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between">
-               <div>
+
+                @php
+                    $totalLockers =
+                        $availableLockers +
+                        $occupiedLockers +
+                        $reservedLockers +
+                        $maintenanceLockers;
+
+                    $availablePercentage = $totalLockers > 0
+                        ? ($availableLockers / $totalLockers) * 100
+                        : 0;
+
+                    $occupiedPercentage = $totalLockers > 0
+                        ? ($occupiedLockers / $totalLockers) * 100
+                        : 0;
+
+                    $reservedPercentage = $totalLockers > 0
+                        ? ($reservedLockers / $totalLockers) * 100
+                        : 0;
+
+                    $maintenancePercentage = $totalLockers > 0
+                        ? ($maintenanceLockers / $totalLockers) * 100
+                        : 0;
+                @endphp
+
+                <div>
                     <div class="flex justify-between items-center mb-1">
-                        <h2 class="font-bold text-slate-800">Locker usage</h2>
-                        <span class="text-xs text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 cursor-pointer hover:bg-slate-100 transition">Today <i class="fa-solid fa-chevron-down text-[10px] ml-1"></i></span>
+                        <h2 class="font-bold text-slate-800">
+                            Locker usage
+                        </h2>
+
+                        <span class="text-xs text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
+                            Today
+                            <i class="fa-solid fa-chevron-down text-[10px] ml-1"></i>
+                        </span>
                     </div>
-                    <p class="text-xs text-slate-400 mb-6">Fleet status across all locations</p>
-                    
+
+                    <p class="text-xs text-slate-400 mb-6">
+                        Fleet status across all locations
+                    </p>
+
                     <!-- Status Segmented Bar -->
                     <div class="flex h-3 w-full rounded-full overflow-hidden gap-1 mb-6 bg-slate-100">
-                        <div class="bg-emerald-500 rounded-l-full" style="width: 50%" title="Available"></div>
-                        <div class="bg-rose-500" style="width: 30%" title="Occupied"></div>
-                        <div class="bg-blue-500" style="width: 12%" title="Reserved"></div>
-                        <div class="bg-amber-500 rounded-r-full" style="width: 8%" title="Maintenance"></div>
+
+                        @if ($availablePercentage > 0)
+                            <div
+                                class="bg-emerald-500 rounded-l-full"
+                                style="width: {{ $availablePercentage }}%"
+                                title="Available"
+                            ></div>
+                        @endif
+
+                        @if ($occupiedPercentage > 0)
+                            <div
+                                class="bg-rose-500"
+                                style="width: {{ $occupiedPercentage }}%"
+                                title="Occupied"
+                            ></div>
+                        @endif
+
+                        @if ($reservedPercentage > 0)
+                            <div
+                                class="bg-blue-500"
+                                style="width: {{ $reservedPercentage }}%"
+                                title="Reserved"
+                            ></div>
+                        @endif
+
+                        @if ($maintenancePercentage > 0)
+                            <div
+                                class="bg-amber-500 rounded-r-full"
+                                style="width: {{ $maintenancePercentage }}%"
+                                title="Maintenance"
+                            ></div>
+                        @endif
+
                     </div>
-               </div>
+                </div>
 
                 <!-- Legend Grid -->
                 <div class="grid grid-cols-2 gap-y-3 text-sm pt-4 border-t border-slate-100">
+
+                    <!-- Available -->
                     <div class="flex items-center gap-2.5 text-slate-600">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Available 
-                        <span class="ml-auto font-bold text-slate-900">384</span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                        Available
+                        <span class="ml-auto font-bold text-slate-900">
+                            {{ $availableLockers }}
+                        </span>
                     </div>
+
+                    <!-- Occupied -->
                     <div class="flex items-center gap-2.5 text-slate-600">
-                        <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Occupied 
-                        <span class="ml-auto font-bold text-slate-900">196</span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+                        Occupied
+                        <span class="ml-auto font-bold text-slate-900">
+                            {{ $occupiedLockers }}
+                        </span>
                     </div>
+
+                    <!-- Reserved -->
                     <div class="flex items-center gap-2.5 text-slate-600">
-                        <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Reserved 
-                        <span class="ml-auto font-bold text-slate-900">41</span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                        Reserved
+                        <span class="ml-auto font-bold text-slate-900">
+                            {{ $reservedLockers }}
+                        </span>
                     </div>
+
+                    <!-- Maintenance -->
                     <div class="flex items-center gap-2.5 text-slate-600">
-                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Maintenance 
-                        <span class="ml-auto font-bold text-slate-900">23</span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                        Maintenance
+                        <span class="ml-auto font-bold text-slate-900">
+                            {{ $maintenanceLockers }}
+                        </span>
                     </div>
+
                 </div>
+
             </div>
 
             <!-- Location Activity Card -->
@@ -168,79 +253,154 @@
 
         </div>
 
-        <!-- Recent Bookings Table -->
+        <!-- Pending Reservations -->
         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+
             <div class="p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-100">
+
                 <div>
-                    <h3 class="font-bold text-slate-800">Recent Resevertion</h3>
-                    <p class="text-xs text-slate-400">Latest locker activity and usage</p>
+                    <h3 class="font-bold text-slate-800">
+                        Pending Reservations
+                    </h3>
+
+                    <p class="text-xs text-slate-400">
+                        Reservations waiting for staff approval
+                    </p>
                 </div>
-                <button class="border border-slate-200 text-xs font-semibold px-3.5 py-2 rounded-xl hover:bg-slate-50 transition text-slate-600">View all bookings</button>
+
+                <span class="text-xs font-semibold px-3.5 py-2 rounded-xl bg-yellow-50 text-yellow-600 border border-yellow-100">
+                    {{ $pendingReservations->count() }} Pending
+                </span>
+
             </div>
 
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="text-slate-400 text-xs border-b border-slate-100 bg-slate-50/50">
-                            <th class="p-4 font-medium">Booking ID</th>
-                            <th class="p-4 font-medium">User</th>
-                            <th class="p-4 font-medium">Locker</th>
-                            <th class="p-4 font-medium">Location</th>
-                            <th class="p-4 font-medium">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-sm divide-y divide-slate-100 text-slate-700">
-                        <!-- Row 1 -->
-                        <tr class="hover:bg-slate-50/50 transition">
-                            <td class="p-4 font-semibold text-blue-600">BK-10482</td>
-                            <td class="p-4">Maya Chen</td>
-                            <td class="p-4">L-024</td>
-                            <td class="p-4">Central Station</td>
-                            <td class="p-4">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-600">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Active
-                                </span>
-                            </td>
-                        </tr>
-                        <!-- Row 2 -->
-                        <tr class="hover:bg-slate-50/50 transition">
-                            <td class="p-4 font-semibold text-blue-600">BK-10481</td>
-                            <td class="p-4">Noah Williams</td>
-                            <td class="p-4">L-118</td>
-                            <td class="p-4">Riverside Mall</td>
-                            <td class="p-4">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-600">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Active
-                                </span>
-                            </td>
-                        </tr>
-                        <!-- Row 3 -->
-                        <tr class="hover:bg-slate-50/50 transition">
-                            <td class="p-4 font-semibold text-blue-600">BK-10479</td>
-                            <td class="p-4">Sofia Patel</td>
-                            <td class="p-4">L-207</td>
-                            <td class="p-4">North Campus</td>
-                            <td class="p-4">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-600">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Completed
-                                </span>
-                            </td>
-                        </tr>
-                        <!-- Row 4 -->
-                        <tr class="hover:bg-slate-50/50 transition">
-                            <td class="p-4 font-semibold text-blue-600">BK-10476</td>
-                            <td class="p-4">Ethan Brown</td>
-                            <td class="p-4">L-063</td>
-                            <td class="p-4">Central Station</td>
-                            <td class="p-4">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-600">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Active
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+
+                @if ($pendingReservations->count() > 0)
+
+                    <table class="w-full text-left border-collapse">
+
+                        <thead>
+                            <tr class="text-slate-400 text-xs border-b border-slate-100 bg-slate-50/50">
+
+                                <th class="p-4 font-medium">Reservation ID</th>
+                                <th class="p-4 font-medium">User</th>
+                                <th class="p-4 font-medium">Locker</th>
+                                <th class="p-4 font-medium">Location</th>
+                                <th class="p-4 font-medium">Status</th>
+                                <th class="p-4 font-medium text-right">Action</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody class="text-sm divide-y divide-slate-100 text-slate-700">
+
+                            @foreach ($pendingReservations as $reservation)
+
+                                <tr class="hover:bg-slate-50/50 transition">
+
+                                    <!-- Reservation ID -->
+                                    <td class="p-4 font-semibold text-blue-600">
+                                        #{{ $reservation->id }}
+                                    </td>
+
+                                    <!-- User -->
+                                    <td class="p-4">
+                                        {{ $reservation->user->name ?? $reservation->name }}
+                                    </td>
+
+                                    <!-- Locker -->
+                                    <td class="p-4">
+                                        {{ $reservation->locker->name ?? '-' }}
+                                    </td>
+
+                                    <!-- Location -->
+                                    <td class="p-4">
+                                        {{ $reservation->locker->location->name ?? '-' }}
+                                    </td>
+
+                                    <!-- Status -->
+                                    <td class="p-4">
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-600">
+
+                                            <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>
+
+                                            Pending
+
+                                        </span>
+                                    </td>
+
+                                    <!-- Action -->
+                                    <td class="p-4">
+                                        <div class="flex items-center justify-end gap-2">
+
+                                            <!-- Approve -->
+                                            <form
+                                                action="{{ route('reservation.approve', $reservation->id) }}"
+                                                method="POST"
+                                            >
+                                                @csrf
+
+                                                <button
+                                                    type="submit"
+                                                    class="px-3 py-1.5 rounded-lg bg-green-50 text-green-600 hover:bg-green-100 text-xs font-semibold transition"
+                                                >
+                                                    <i class="fa-solid fa-check mr-1"></i>
+                                                    Approve
+                                                </button>
+
+                                            </form>
+
+                                            <!-- Reject -->
+                                            <form
+                                                action="{{ route('reservation.reject', $reservation->id) }}"
+                                                method="POST"
+                                            >
+                                                @csrf
+
+                                                <button
+                                                    type="submit"
+                                                    class="px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 text-xs font-semibold transition"
+                                                >
+                                                    <i class="fa-solid fa-xmark mr-1"></i>
+                                                    Reject
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                            @endforeach
+
+                        </tbody>
+
+                    </table>
+
+                @else
+
+                    <div class="p-8 text-center">
+
+                        <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-green-50 text-green-500 flex items-center justify-center">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+
+                        <h4 class="text-sm font-semibold text-slate-700">
+                            No pending reservations
+                        </h4>
+
+                        <p class="text-xs text-slate-400 mt-1">
+                            All reservation requests have been processed.
+                        </p>
+
+                    </div>
+
+                @endif
+
             </div>
+
         </div>
 
     </div>

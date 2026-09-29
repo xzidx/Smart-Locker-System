@@ -27,6 +27,7 @@ class ReservationController extends Controller
             'reservation.index',
             compact('reservations')
         );
+        
     }
 
 
@@ -105,5 +106,33 @@ public function destroy($id)
     return redirect()
         ->route('reservation.index')
         ->with('success', 'Locker released successfully!');
+}
+
+public function approve($id)
+{
+    $reservation = Reservation::findOrFail($id);
+
+    $reservation->update([
+        'status' => 'confirmed',
+    ]);
+
+    return back()->with(
+        'success',
+        'Reservation approved successfully.'
+    );
+}
+
+public function reject($id)
+{
+    $reservation = Reservation::findOrFail($id);
+
+    $reservation->update([
+        'status' => 'cancelled',
+    ]);
+
+    return back()->with(
+        'success',
+        'Reservation rejected.'
+    );
 }
 }
