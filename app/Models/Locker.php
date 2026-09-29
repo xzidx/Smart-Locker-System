@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Location;
+use App\Models\LockerUsage;
+use App\Models\LockerMaintenance;
 
 class Locker extends Model
 {

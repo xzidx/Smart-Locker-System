@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Locker;
+use App\Models\Location;
 use Illuminate\Http\Request;
 
 class LockerController extends Controller
 {
     public function index()
     {
-        // Logic to retrieve and return locker data
         $lockers = Locker::with('location')->get();
 
         return view('lockers.index', compact('lockers'));
@@ -16,7 +17,6 @@ class LockerController extends Controller
 
     public function create()
     {
-        // Logic to show a form for creating a new locker
         $locations = Location::all();
 
         return view('lockers.create', compact('locations'));
@@ -24,7 +24,6 @@ class LockerController extends Controller
 
     public function store(Request $request)
     {
-        // Logic to store a new locker record
         $request->validate([
             'name' => 'required|string|max:100',
             'status' => 'required|string|max:30',
@@ -33,20 +32,22 @@ class LockerController extends Controller
 
         Locker::create($request->all());
 
-        return redirect()->route('lockers.index')
-                         ->with('success', 'Locker created successfully.');
+        return redirect()
+            ->route('lockers.index')
+            ->with('success', 'Locker created successfully.');
     }
 
     public function show(Locker $locker)
     {
-         $locker->load('location', 'usages', 'maintenances');
-        // Logic to retrieve and return a specific locker record
-        return view('lockers.show', compact('locker'));
+        $locker->load('location', 'usages', 'maintenances');
+
+           $location = $locker->location;
+
+        return view('lockers.locker_detail', compact('locker', 'location'));
     }
 
     public function edit(Locker $locker)
     {
-        // Logic to show a form for editing a specific locker record
         $locations = Location::all();
 
         return view('lockers.edit', compact('locker', 'locations'));
@@ -54,7 +55,6 @@ class LockerController extends Controller
 
     public function update(Request $request, Locker $locker)
     {
-        // Logic to update a specific locker record
         $request->validate([
             'name' => 'required|string|max:100',
             'status' => 'required|string|max:30',
@@ -63,16 +63,17 @@ class LockerController extends Controller
 
         $locker->update($request->all());
 
-        return redirect()->route('lockers.index')
-                         ->with('success', 'Locker updated successfully.');
+        return redirect()
+            ->route('lockers.index')
+            ->with('success', 'Locker updated successfully.');
     }
 
     public function destroy(Locker $locker)
     {
-        // Logic to delete a specific locker record
         $locker->delete();
 
-        return redirect()->route('lockers.index')
-                         ->with('success', 'Locker deleted successfully.');
+        return redirect()
+            ->route('lockers.index')
+            ->with('success', 'Locker deleted successfully.');
     }
 }

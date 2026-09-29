@@ -7,32 +7,46 @@ use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Get all locations
-        $locations = Location::all();
+        $search = $request->input('search');
 
-        return view('locations.index', compact('locations'));
+        $locations = Location::withCount('lockers')
+            ->withCount([
+                'lockers as available_count' => function ($query) {
+                    $query->where('status', 'available');
+                }
+            ])
+            ->when($search, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('name', 'ILIKE', "%{$search}%")
+                        ->orWhere('address', 'ILIKE', "%{$search}%")
+                        ->orWhere('building', 'ILIKE', "%{$search}%")
+                        ->orWhere('floor', 'ILIKE', "%{$search}%");
+                });
+            })
+            ->orderBy('name')
+            ->paginate(4)
+            ->withQueryString();
+
+        return view('locations.index', compact('locations', 'search'));
     }
 
     public function create()
     {
-        // Show create location page
         return view('locations.create');
     }
 
     public function store(Request $request)
     {
-        // Validate location data
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:100',
             'address' => 'required|string|max:255',
             'building' => 'required|string|max:100',
             'floor' => 'required|string|max:50',
         ]);
 
-        // Create location
-        Location::create($request->all());
+        Location::create($validated);
 
         return redirect()
             ->route('locations.index')
@@ -41,28 +55,26 @@ class LocationController extends Controller
 
     public function show(Location $location)
     {
-        // Show one location
-        return view('locations.show', compact('location'));
+        $location->load('lockers');
+
+        return view('locations.details', compact('location'));
     }
 
     public function edit(Location $location)
     {
-        // Show edit location page
         return view('locations.edit', compact('location'));
     }
 
     public function update(Request $request, Location $location)
     {
-        // Validate location data
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:100',
             'address' => 'required|string|max:255',
             'building' => 'required|string|max:100',
             'floor' => 'required|string|max:50',
         ]);
 
-        // Update location
-        $location->update($request->all());
+        $location->update($validated);
 
         return redirect()
             ->route('locations.index')
@@ -71,12 +83,10 @@ class LocationController extends Controller
 
     public function destroy(Location $location)
     {
-        // Delete location
         $location->delete();
 
         return redirect()
             ->route('locations.index')
             ->with('success', 'Location deleted successfully.');
     }
-    
 }
