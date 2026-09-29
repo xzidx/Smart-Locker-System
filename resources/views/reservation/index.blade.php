@@ -24,7 +24,7 @@
 
     @forelse ($reservations as $index => $reservation)
         @if ($index < 3)
-            <x-reservation-card :usage="$reservation" />
+           <x-reservation-card :reservation="$reservation" />
         @endif
     @empty
         <p class="text-slate-500 text-sm">No reservations yet.</p>
@@ -34,7 +34,7 @@
         <div id="moreReservations" class="hidden">
             @foreach ($reservations as $index => $reservation)
                 @if ($index >= 3)
-                    <x-reservation-card :usage="$reservation" />
+                   <x-reservation-card :reservation="$reservation" />
                 @endif
             @endforeach
         </div>
