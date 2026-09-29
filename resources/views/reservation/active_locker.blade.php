@@ -98,35 +98,6 @@
         </p>
     </div>
 
-    <!-- Access -->
-    <div class="bg-white border border-gray-200 rounded-[18px] p-6 mt-6 shadow-[0_8px_20px_rgba(35,52,80,0.12)]">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-8">
-            <!-- Countdown -->
-            <div
-                id="countdownBox"
-                data-end="{{ $activeLocker->end_time?->toIso8601String() }}"
-                class="flex-1 flex flex-col items-center justify-center text-center">
-                <div id="countdown" class="text-[48px] font-bold text-slate-900">00:00:00</div>
-                <p id="remainingText" class="text-sm text-slate-500"></p>
-            </div>
-
-            <!-- QR -->
-            <div class="w-full md:w-[340px] border border-gray-200 rounded-[18px] p-5">
-                <h2 class="text-[18px] font-bold text-slate-900">Access</h2>
-
-                <button onclick="openQR()" class="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <rect x="3" y="3" width="6" height="6" stroke-width="2" />
-                        <rect x="15" y="3" width="6" height="6" stroke-width="2" />
-                        <rect x="3" y="15" width="6" height="6" stroke-width="2" />
-                        <path stroke-width="2" d="M15 15h3v3h3v3h-6v-6z" />
-                    </svg>
-                    Show QR Code
-                </button>
-            </div>
-
-        </div>
-    </div>
 
     <!-- Locker Buttons -->
     <div class="bg-white border border-gray-200 rounded-[18px] p-6 mt-6 shadow-[0_8px_20px_rgba(35,52,80,0.12)]">

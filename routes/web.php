@@ -8,6 +8,8 @@ use App\Http\Controllers\LockerUsageController;
 use App\Http\Controllers\LockerMaintenanceController;
 use App\Http\Controllers\StaffDashboardController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReservationController;
+
 
 // Authentication
 Route::get('/', function () {
@@ -106,6 +108,9 @@ Route::get('/dashboard/staff', [StaffDashboardController::class, 'index'])
 
 
 
+
+// Reservation
+Route::resource('reservation', ReservationController::class);
 
 
 
