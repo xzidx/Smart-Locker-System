@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReservationCheckoutController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LocationsManagementController;
 
 // Authentication
 Route::get('/', function () {
@@ -73,10 +74,30 @@ Route::put('/settings/profile', [ProfileController::class, 'update'])
         ->name('reservation.reject');
 
     // for change location for staff and user
-    Route::get('/staff/locations', [LocationController::class, 'staffIndex'])
-    ->name('staff.locations.index');
+   Route::prefix('staff')->group(function () {
 
+    Route::get('/locations', [LocationsManagementController::class, 'index'])
+        ->name('locations-management.index');
 
+    Route::get('/locations/create', [LocationsManagementController::class, 'create'])
+        ->name('locations-management.create');
+
+    Route::post('/locations', [LocationsManagementController::class, 'store'])
+        ->name('locations-management.store');
+
+    Route::get('/locations/{location}', [LocationsManagementController::class, 'show'])
+        ->name('locations-management.show');
+
+    Route::get('/locations/{location}/edit', [LocationsManagementController::class, 'edit'])
+        ->name('locations-management.edit');
+
+    Route::put('/locations/{location}', [LocationsManagementController::class, 'update'])
+        ->name('locations-management.update');
+
+    Route::delete('/locations/{location}', [LocationsManagementController::class, 'destroy'])
+        ->name('locations-management.destroy');
+
+});
 
 
 
