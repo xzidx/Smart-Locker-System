@@ -6,7 +6,6 @@
 
 <div class="min-h-screen bg-[#f5f7fb] px-6 py-16">
 
-```
 <div class="mx-auto max-w-[1240px]">
 
     {{-- HEADER --}}
