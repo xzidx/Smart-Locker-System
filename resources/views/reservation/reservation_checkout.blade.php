@@ -1,626 +1,529 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+@section('title', 'Reserve Locker')
 
-    <title>Dashboard Overview</title>
+@section('content')
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+<div class="min-h-screen bg-[#f5f7fb] px-6 py-16">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+<div class="mx-auto max-w-[1240px]">
 
-    <script src="https://unpkg.com/lucide@latest"></script>
-</head>
+    {{-- HEADER --}}
+    <div class="mb-7">
 
-<body class="bg-slate-50 text-slate-900">
-
-    <!-- HEADER -->
-    <header class="h-[88px] bg-white border-b border-slate-200">
-
-        <div class="h-full px-8 flex items-center justify-between">
-
-            <!-- LEFT -->
-            <div>
-                <h1 class="text-[21px] font-bold text-slate-900">
-                    Dashboard overview
-                </h1>
-
-                <p class="text-sm text-slate-500 mt-1">
-                    {{ now()->format('l, F d') }} · Live system summary
-                </p>
-            </div>
-
-
-            <!-- RIGHT -->
-            <div class="flex items-center gap-4">
-
-                <!-- SEARCH -->
-                <div class="relative">
-
-                    <i data-lucide="search"
-                       class="absolute left-4 top-1/2 -translate-y-1/2
-                              w-5 h-5 text-slate-400">
-                    </i>
-
-                    <input
-                        type="text"
-                        placeholder="Search users, lockers..."
-                        class="w-[300px] h-[42px]
-                               pl-11 pr-4
-                               rounded-xl
-                               bg-slate-100
-                               border border-transparent
-                               focus:outline-none
-                               focus:border-blue-400
-                               text-sm"
-                    >
-
-                </div>
-
-
-                <!-- NOTIFICATION -->
-                <button
-                    class="relative w-[44px] h-[44px]
-                           bg-slate-100
-                           rounded-xl
-                           flex items-center justify-center">
-
-                    <i data-lucide="bell"
-                       class="w-5 h-5 text-slate-700">
-                    </i>
-
-                    <span
-                        class="absolute top-[8px] right-[8px]
-                               w-2 h-2
-                               bg-red-500
-                               rounded-full">
-                    </span>
-
-                </button>
-
-
-                <!-- PROFILE -->
-                <div class="flex items-center gap-3">
-
-                    <div
-                        class="w-10 h-10 rounded-full
-                               bg-slate-300
-                               flex items-center justify-center
-                               font-semibold text-slate-700">
-
-                        {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
-
-                    </div>
-
-                    <div>
-
-                        <p class="text-sm font-semibold">
-                            {{ auth()->user()->name ?? 'Alex Morgan' }}
-                        </p>
-
-                        <p class="text-xs text-slate-500">
-                            Staff administrator
-                        </p>
-
-                    </div>
-
-                    <i data-lucide="chevron-down"
-                       class="w-4 h-4 text-slate-500">
-                    </i>
-
-                </div>
-
-            </div>
-
+        <div class="mb-3 text-[13px] font-bold uppercase tracking-[1px] text-[#2563eb]">
+            Secure Checkout
         </div>
 
-    </header>
+        <h1 class="text-[32px] font-bold leading-tight text-[#172033]">
+            Reserve Locker {{ $locker->name }}
+        </h1>
+
+        <p class="mt-3 text-[15px] text-[#526078]">
+            {{ $location->name }}
+            ·
+            {{ ucfirst($locker->size ?? 'Medium') }} locker
+        </p>
+
+    </div>
 
 
-    <!-- MAIN -->
-    <main class="max-w-[1240px] mx-auto px-6 py-12">
+    {{-- VALIDATION ERRORS --}}
+    @if ($errors->any())
 
+        <div class="mb-6 rounded-[12px] border border-red-200 bg-red-50 p-4">
 
-        <!-- PAGE TITLE -->
-        <div class="mb-8">
-
-            <p class="text-blue-600
-                      uppercase
-                      tracking-[0.15em]
-                      text-xs
-                      font-bold
-                      mb-3">
-
-                MY RESERVATIONS
-
-            </p>
-
-            <h2 class="text-4xl font-bold text-slate-900">
-
-                Upcoming reservations
-
-            </h2>
-
-            <p class="text-slate-500 mt-2">
-
-                View and manage your active locker reservations.
-
-            </p>
-
-        </div>
-
-
-        <!-- RESERVATION COUNT -->
-        <div class="flex items-center justify-between mb-5">
-
-            <div>
-
-                <span class="text-sm text-slate-500">
-
-                    {{ $reservations->count() }}
-
-                    {{ $reservations->count() === 1 ? 'reservation' : 'reservations' }}
-
-                </span>
-
+            <div class="mb-2 font-semibold text-red-700">
+                Please fix the following errors:
             </div>
 
-        </div>
+            <ul class="list-disc pl-5 text-[14px] text-red-600">
 
-
-        <!-- RESERVATIONS -->
-        @if($reservations->count() > 0)
-
-            <div class="grid grid-cols-1 gap-5">
-
-                @foreach($reservations as $reservation)
-
-                    <div
-                        class="bg-white
-                               border border-slate-200
-                               rounded-2xl
-                               p-6
-                               shadow-sm
-                               hover:shadow-md
-                               transition">
-
-                        <div class="flex items-center justify-between">
-
-
-                            <!-- LEFT -->
-                            <div class="flex items-start gap-5">
-
-                                <!-- LOCKER ICON -->
-                                <div
-                                    class="w-14 h-14
-                                           rounded-xl
-                                           bg-blue-50
-                                           flex items-center justify-center">
-
-                                    <i data-lucide="lock-keyhole"
-                                       class="w-7 h-7 text-blue-600">
-                                    </i>
-
-                                </div>
-
-
-                                <div>
-
-                                    <!-- LOCKER NAME -->
-                                    <div class="flex items-center gap-3">
-
-                                        <h3
-                                            class="text-lg
-                                                   font-bold
-                                                   text-slate-900">
-
-                                            {{ $reservation->locker->name }}
-
-                                        </h3>
-
-
-                                        <!-- STATUS -->
-                                        @if($reservation->status === 'confirmed')
-
-                                            <span
-                                                class="px-3 py-1
-                                                       rounded-full
-                                                       text-xs
-                                                       font-semibold
-                                                       bg-green-50
-                                                       text-green-700">
-
-                                                Confirmed
-
-                                            </span>
-
-                                        @elseif($reservation->status === 'active')
-
-                                            <span
-                                                class="px-3 py-1
-                                                       rounded-full
-                                                       text-xs
-                                                       font-semibold
-                                                       bg-blue-50
-                                                       text-blue-700">
-
-                                                Active
-
-                                            </span>
-
-                                        @endif
-
-                                    </div>
-
-
-                                    <!-- LOCATION -->
-                                    <div
-                                        class="flex items-center gap-2
-                                               text-sm
-                                               text-slate-500
-                                               mt-2">
-
-                                        <i data-lucide="map-pin"
-                                           class="w-4 h-4">
-                                        </i>
-
-                                        {{ $reservation->locker->location }}
-
-                                    </div>
-
-
-                                    <!-- DATE/TIME -->
-                                    <div
-                                        class="flex items-center gap-2
-                                               text-sm
-                                               text-slate-500
-                                               mt-2">
-
-                                        <i data-lucide="calendar-days"
-                                           class="w-4 h-4">
-                                        </i>
-
-                                        {{ $reservation->start_time->format('M d, Y') }}
-
-                                        ·
-
-                                        {{ $reservation->start_time->format('g:i A') }}
-
-                                        -
-
-                                        {{ $reservation->end_time->format('g:i A') }}
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- RIGHT -->
-                            <div class="flex items-center gap-3">
-
-
-                                <!-- QR BUTTON -->
-                                <button
-                                    onclick="openQrModal(
-                                        '{{ $reservation->locker->name }}',
-                                        '{{ $reservation->access_code }}'
-                                    )"
-                                    class="h-11
-                                           px-5
-                                           rounded-xl
-                                           bg-blue-600
-                                           hover:bg-blue-700
-                                           text-white
-                                           text-sm
-                                           font-semibold
-                                           flex
-                                           items-center
-                                           gap-2
-                                           transition">
-
-                                    <i data-lucide="qr-code"
-                                       class="w-4 h-4">
-                                    </i>
-
-                                    View access QR
-
-                                </button>
-
-
-                                <!-- MORE -->
-                                <button
-                                    class="w-11 h-11
-                                           rounded-xl
-                                           border
-                                           border-slate-200
-                                           flex
-                                           items-center
-                                           justify-center
-                                           hover:bg-slate-50">
-
-                                    <i data-lucide="more-horizontal"
-                                       class="w-5 h-5 text-slate-600">
-                                    </i>
-
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
                 @endforeach
 
-            </div>
+            </ul>
+
+        </div>
+
+    @endif
 
 
-        @else
+    {{-- SUCCESS MESSAGE --}}
+    @if (session('success'))
 
-            <!-- EMPTY STATE -->
-            <div
-                class="bg-white
-                       border border-slate-200
-                       rounded-2xl
-                       py-16
-                       text-center">
+        <div class="mb-6 rounded-[12px] border border-green-200 bg-green-50 p-4 text-[14px] text-green-700">
+            {{ session('success') }}
+        </div>
 
-                <div
-                    class="w-16 h-16
-                           mx-auto
-                           rounded-full
-                           bg-slate-100
-                           flex
-                           items-center
-                           justify-center">
+    @endif
 
-                    <i data-lucide="calendar-x"
-                       class="w-7 h-7 text-slate-400">
-                    </i>
+
+    {{-- CONTENT --}}
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-[1.65fr_1fr]">
+
+
+        {{-- LEFT CARD --}}
+        <div
+            class="rounded-[20px] border border-[#dce3ec] bg-white px-6 py-6 shadow-[0_8px_25px_rgba(15,23,42,0.06)]">
+
+            {{-- FORM --}}
+            <form
+                action="{{ route('reservation.store') }}"
+                method="POST"
+                id="reservationForm"
+            >
+
+                @csrf
+
+
+                {{-- LOCKER ID --}}
+                <input
+                    type="hidden"
+                    name="locker_id"
+                    value="{{ $locker->id }}"
+                >
+
+
+                {{-- LOCATION ID --}}
+                <input
+                    type="hidden"
+                    name="location_id"
+                    value="{{ $location->id }}"
+                >
+
+
+                {{-- RESERVATION DETAILS --}}
+                <h2 class="mb-4 text-[18px] font-bold text-black">
+                    Reservation details
+                </h2>
+
+
+                {{-- START TIME --}}
+                <div class="mb-4">
+
+                    <label
+                        for="start_time"
+                        class="mb-2 block text-[13px] font-semibold text-[#526078]"
+                    >
+                        Start time
+                    </label>
+
+                    <input
+                        id="start_time"
+                        type="datetime-local"
+                        name="start_time"
+                        value="{{ old('start_time') }}"
+                        class="h-[49px] w-full rounded-[12px] border border-[#dce3ec] bg-[#f8fafc] px-4 text-[14px] text-[#172033] outline-none focus:border-[#2563eb]"
+                        required
+                    >
+
+                    @error('start_time')
+                        <p class="mt-1 text-[13px] text-red-600">
+                            {{ $message }}
+                        </p>
+                    @enderror
 
                 </div>
 
-                <h3
-                    class="mt-5
-                           text-lg
-                           font-semibold">
 
-                    No upcoming reservations
+                {{-- DURATION --}}
+                <div class="mb-4">
 
-                </h3>
+                    <label
+                        for="duration"
+                        class="mb-2 block text-[13px] font-semibold text-[#526078]"
+                    >
+                        Duration
+                    </label>
 
-                <p class="text-sm text-slate-500 mt-2">
+                    <select
+                        id="duration"
+                        name="duration"
+                        class="h-[49px] w-full rounded-[12px] border border-[#dce3ec] bg-[#f8fafc] px-4 text-[14px] text-[#172033] outline-none focus:border-[#2563eb]"
+                        required
+                    >
 
-                    You don't have any active locker reservations.
+                        <option value="">
+                            Select duration
+                        </option>
 
-                </p>
+                        <option
+                            value="1"
+                            {{ old('duration') == 1 ? 'selected' : '' }}
+                        >
+                            1 Hour
+                        </option>
 
-                <a
-                    href="#"
-                    class="inline-flex
-                           mt-5
-                           px-5
-                           py-2.5
-                           bg-blue-600
-                           text-white
-                           rounded-xl
-                           text-sm
-                           font-semibold">
+                        <option
+                            value="2"
+                            {{ old('duration') == 2 ? 'selected' : '' }}
+                        >
+                            2 Hours
+                        </option>
 
-                    Find a locker
+                        <option
+                            value="3"
+                            {{ old('duration') == 3 ? 'selected' : '' }}
+                        >
+                            3 Hours
+                        </option>
 
-                </a>
+                        <option
+                            value="4"
+                            {{ old('duration') == 4 ? 'selected' : '' }}
+                        >
+                            4 Hours
+                        </option>
 
-            </div>
+                        <option
+                            value="8"
+                            {{ old('duration') == 8 ? 'selected' : '' }}
+                        >
+                            8 Hours
+                        </option>
 
-        @endif
+                        <option
+                            value="24"
+                            {{ old('duration') == 24 ? 'selected' : '' }}
+                        >
+                            24 Hours
+                        </option>
 
-    </main>
+                    </select>
 
+                    @error('duration')
+                        <p class="mt-1 text-[13px] text-red-600">
+                            {{ $message }}
+                        </p>
+                    @enderror
 
-    <!-- QR MODAL -->
-    <div
-        id="qrModal"
-        class="hidden fixed inset-0
-               bg-black/50
-               backdrop-blur-sm
-               items-center
-               justify-center
-               z-50">
-
-        <div
-            class="bg-white
-                   w-[380px]
-                   rounded-2xl
-                   p-7
-                   shadow-2xl">
-
-            <!-- CLOSE -->
-            <div class="flex justify-between items-center">
-
-                <h3 class="text-xl font-bold">
-
-                    Locker Access
-
-                </h3>
-
-                <button
-                    onclick="closeQrModal()"
-                    class="w-9 h-9
-                           rounded-lg
-                           hover:bg-slate-100
-                           flex
-                           items-center
-                           justify-center">
-
-                    <i data-lucide="x"
-                       class="w-5 h-5">
-                    </i>
-
-                </button>
-
-            </div>
+                </div>
 
 
-            <p
-                id="qrLockerName"
-                class="text-sm
-                       text-slate-500
-                       mt-2">
-            </p>
-
-
-            <!-- QR -->
-            <div
-                class="mt-6
-                       flex
-                       justify-center">
-
+                {{-- END TIME PREVIEW --}}
                 <div
-                    class="w-52 h-52
-                           border-2
-                           border-slate-200
-                           rounded-xl
-                           flex
-                           items-center
-                           justify-center
-                           bg-white">
+                    id="endTimePreview"
+                    class="mb-6 hidden rounded-[12px] border border-blue-100 bg-blue-50 p-4"
+                >
 
-                    <div id="qrCode"
-                         class="text-center">
-
-                        <i data-lucide="qr-code"
-                           class="w-32 h-32 text-slate-900">
-                        </i>
-
+                    <div class="text-[13px] font-semibold text-[#526078]">
+                        Reservation ends
                     </div>
 
+                    <div
+                        id="endTimeText"
+                        class="mt-1 text-[15px] font-bold text-[#2563eb]"
+                    ></div>
+
                 </div>
 
+
+                {{-- USER CONTACT --}}
+                <h2 class="mb-4 mt-3 text-[18px] font-bold text-black">
+                    User Contact
+                </h2>
+
+
+                {{-- NAME --}}
+                <div class="mb-4">
+
+                    <label
+                        for="name"
+                        class="mb-2 block text-[13px] font-semibold text-[#526078]"
+                    >
+                        Name
+                    </label>
+
+                    <input
+                        id="name"
+                        type="text"
+                        name="name"
+                        value="{{ old('name', $user->name ?? '') }}"
+                        class="h-[49px] w-full rounded-[12px] border border-[#dce3ec] bg-[#f8fafc] px-4 text-[14px] text-[#172033] outline-none focus:border-[#2563eb]"
+                        required
+                    >
+
+                    @error('name')
+                        <p class="mt-1 text-[13px] text-red-600">
+                            {{ $message }}
+                        </p>
+                    @enderror
+
+                </div>
+
+
+                {{-- EMAIL --}}
+                <div class="mb-4">
+
+                    <label
+                        for="email"
+                        class="mb-2 block text-[13px] font-semibold text-[#526078]"
+                    >
+                        Email
+                    </label>
+
+                    <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        value="{{ old('email', $user->email ?? '') }}"
+                        class="h-[49px] w-full rounded-[12px] border border-[#dce3ec] bg-[#f8fafc] px-4 text-[14px] text-[#172033] outline-none focus:border-[#2563eb]"
+                        required
+                    >
+
+                    @error('email')
+                        <p class="mt-1 text-[13px] text-red-600">
+                            {{ $message }}
+                        </p>
+                    @enderror
+
+                </div>
+
+
+                {{-- PHONE --}}
+                <div class="mb-6">
+
+                    <label
+                        for="phone"
+                        class="mb-2 block text-[13px] font-semibold text-[#526078]"
+                    >
+                        Phone
+                    </label>
+
+                    <input
+                        id="phone"
+                        type="text"
+                        name="phone"
+                        value="{{ old('phone', $user->phone ?? '') }}"
+                        class="h-[49px] w-full rounded-[12px] border border-[#dce3ec] bg-[#f8fafc] px-4 text-[14px] text-[#172033] outline-none focus:border-[#2563eb]"
+                        required
+                    >
+
+                    @error('phone')
+                        <p class="mt-1 text-[13px] text-red-600">
+                            {{ $message }}
+                        </p>
+                    @enderror
+
+                </div>
+
+
+                {{-- BUTTON --}}
+                <button
+                    type="submit"
+                    class="w-full rounded-[12px] bg-[#2864e8] px-5 py-[14px] text-[14px] font-semibold text-white transition hover:bg-[#1f56d0]"
+                >
+                    Confirm reservation
+                </button>
+
+            </form>
+
+        </div>
+
+
+        {{-- RIGHT CARD --}}
+        <div
+            class="h-fit rounded-[20px] border border-[#dce3ec] bg-white px-6 py-6 shadow-[0_8px_25px_rgba(15,23,42,0.06)]">
+
+            {{-- TITLE --}}
+            <h2 class="mb-4 text-[18px] font-bold text-black">
+                Locker details
+            </h2>
+
+
+            {{-- DETAILS --}}
+            <div class="space-y-3 text-[14px] text-[#172033]">
+
+                <p>
+                    <span class="font-bold">
+                        Locker:
+                    </span>
+
+                    {{ $locker->name }}
+                </p>
+
+
+                <p>
+                    <span class="font-bold">
+                        Locker Size:
+                    </span>
+
+                    {{ ucfirst($locker->size ?? 'Medium') }}
+                </p>
+
+
+                <p>
+                    <span class="font-bold">
+                        Status:
+                    </span>
+
+                    <span
+                        class="
+                            ml-1 rounded-full px-2 py-1 text-[12px] font-semibold
+                            {{ strtolower($locker->status) === 'available'
+                                ? 'bg-green-100 text-green-700'
+                                : 'bg-red-100 text-red-700'
+                            }}
+                        "
+                    >
+                        {{ ucfirst($locker->status ?? 'Available') }}
+                    </span>
+                </p>
+
+
+                <p>
+                    <span class="font-bold">
+                        Location:
+                    </span>
+
+                    {{ $location->name }}
+                </p>
+
+
+                <p>
+                    <span class="font-bold">
+                        Address:
+                    </span>
+
+                    {{ $location->address }}
+                </p>
+
+
+                <p>
+                    <span class="font-bold">
+                        Building:
+                    </span>
+
+                    {{ $location->building }}
+                </p>
+
+
+                <p>
+                    <span class="font-bold">
+                        Floor:
+                    </span>
+
+                    {{ $location->floor }}
+                </p>
+
+
+                <p>
+                    <span class="font-bold">
+                        Access:
+                    </span>
+
+                    PIN Code will be sent via SMS/Email
+                </p>
+
             </div>
 
 
-            <p
-                class="text-center
-                       text-xs
-                       text-slate-500
-                       mt-5">
+            {{-- MAP --}}
+            @php
 
-                Scan this QR code at the locker to unlock it.
+                $latitude = $location->latitude ?? 11.5564;
+                $longitude = $location->longitude ?? 104.9282;
 
-            </p>
+            @endphp
 
-
-            <!-- ACCESS CODE -->
             <div
-                class="mt-5
-                       bg-slate-50
-                       rounded-xl
-                       p-4
-                       text-center">
+                class="relative mt-5 h-[278px] overflow-hidden rounded-[20px] bg-[#e8edf2]"
+            >
 
-                <p
-                    class="text-xs
-                           text-slate-500
-                           uppercase
-                           tracking-wider">
-
-                    Access code
-
-                </p>
-
-                <p
-                    id="accessCode"
-                    class="text-xl
-                           font-bold
-                           tracking-[0.2em]
-                           mt-1">
-
-                </p>
+                <iframe
+                    src="https://www.google.com/maps?q={{ $latitude }},{{ $longitude }}&z=15&output=embed"
+                    class="h-full w-full border-0"
+                    loading="lazy"
+                    allowfullscreen
+                ></iframe>
 
             </div>
 
 
-            <button
-                onclick="closeQrModal()"
-                class="w-full
-                       mt-5
-                       h-11
-                       rounded-xl
-                       bg-blue-600
-                       hover:bg-blue-700
-                       text-white
-                       font-semibold">
+            {{-- COORDINATES --}}
+            <div class="mt-3 text-[12px] text-[#718096]">
 
-                Done
+                Location coordinates:
 
-            </button>
+                {{ $latitude }}, {{ $longitude }}
+
+            </div>
 
         </div>
 
     </div>
 
+</div>
+```
 
-    <script>
+</div>
 
-        lucide.createIcons();
+{{-- JAVASCRIPT --}}
 
+<script>
 
-        function openQrModal(lockerName, accessCode)
-        {
-            const modal = document.getElementById('qrModal');
+    const startTime = document.getElementById('start_time');
 
-            const locker =
-                document.getElementById('qrLockerName');
+    const duration = document.getElementById('duration');
 
-            const code =
-                document.getElementById('accessCode');
+    const endTimePreview =
+        document.getElementById('endTimePreview');
 
-
-            locker.innerText =
-                lockerName + ' · Access QR';
-
-
-            code.innerText =
-                accessCode || '------';
+    const endTimeText =
+        document.getElementById('endTimeText');
 
 
-            modal.classList.remove('hidden');
+    function calculateEndTime() {
 
-            modal.classList.add('flex');
+        if (!startTime.value || !duration.value) {
+
+            endTimePreview.classList.add('hidden');
+
+            return;
         }
 
 
-        function closeQrModal()
-        {
-            const modal =
-                document.getElementById('qrModal');
+        const start = new Date(startTime.value);
 
-            modal.classList.add('hidden');
+        const hours = parseInt(duration.value);
 
-            modal.classList.remove('flex');
-        }
+        start.setHours(start.getHours() + hours);
 
 
-        // Close modal when clicking outside
-        document
-            .getElementById('qrModal')
-            .addEventListener('click', function(event)
-            {
+        const formatted = start.toLocaleString('en-US', {
 
-                if (event.target === this)
-                {
-                    closeQrModal();
-                }
+            year: 'numeric',
 
-            });
+            month: 'short',
 
-    </script>
+            day: 'numeric',
 
-</body>
+            hour: '2-digit',
 
-</html>
+            minute: '2-digit'
+
+        });
+
+
+        endTimeText.textContent = formatted;
+
+        endTimePreview.classList.remove('hidden');
+
+    }
+
+
+    startTime.addEventListener(
+        'change',
+        calculateEndTime
+    );
+
+    duration.addEventListener(
+        'change',
+        calculateEndTime
+    );
+
+</script>
+
+@endsection
