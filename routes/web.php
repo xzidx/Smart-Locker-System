@@ -6,6 +6,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LockerController;
 use App\Http\Controllers\LockerUsageController;
 use App\Http\Controllers\LockerMaintenanceController;
+use App\Http\Controllers\StaffDashboardController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 
@@ -24,9 +25,14 @@ Route::get('/forgot-password', function () {
 
 Route::middleware('auth')->group(function () {
 
-    // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->name('dashboard');
+
+    // Dashboardstaff
+
+Route::get('/dashboard/staff', [StaffDashboardController::class, 'index'])
+    ->name('staff.dashboard');
+
+    // Dashboard (FIXED: now uses the controller so the data is passed to the view)
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Locations
     Route::resource('locations', LocationController::class);
@@ -56,14 +62,148 @@ Route::put('/settings/profile', [ProfileController::class, 'update'])
     Route::get('/reservation_checkout', function () {
         return view('reservation_checkout.index');
     })->name('reservation_checkout');
-
-    // Location detail pages
-    Route::get('/locations/details/{id}', function ($id) {
-        return view('locations.details', ['lockerId' => $id]);
-    })->name('locations.details');
-
-    Route::get('/locations/locker/{id}', function ($id) {
-        return view('locations.locker', ['lockerId' => $id]);
-    })->name('locations.locker');
-
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

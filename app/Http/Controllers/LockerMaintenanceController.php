@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Locker;
+use App\Models\LockerMaintenance;
 use Illuminate\Http\Request;
 
 class LockerMaintenanceController extends Controller
