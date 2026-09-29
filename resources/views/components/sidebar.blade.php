@@ -41,7 +41,9 @@
 
         <!-- Locations -->
         <a
-            href="{{ route('locations.index') }}"
+            href="{{ auth()->user()->role === 'staff'
+                ? route('staff.locations.index')
+                : route('locations.index') }}"
             class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
         >
             <i class="fa-solid fa-location-dot w-5"></i>

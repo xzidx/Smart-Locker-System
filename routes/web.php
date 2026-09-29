@@ -72,7 +72,9 @@ Route::put('/settings/profile', [ProfileController::class, 'update'])
     Route::post('/reservation/{reservation}/reject', [ReservationController::class, 'reject'])
         ->name('reservation.reject');
 
-
+    // for change location for staff and user
+    Route::get('/staff/locations', [LocationController::class, 'staffIndex'])
+    ->name('staff.locations.index');
 
 
 

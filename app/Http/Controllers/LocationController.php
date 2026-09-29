@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
+
+
+    public function staffIndex()
+    {
+        $locations = Location::withCount('lockers')->get();
+
+        return view('locker_maintenance.index', compact('locations'));
+    }
     public function index(Request $request)
     {
         $search = $request->input('search');
