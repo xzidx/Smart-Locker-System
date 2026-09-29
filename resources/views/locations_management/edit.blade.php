@@ -5,6 +5,7 @@
 @section('page-description', 'Update location details')
 
 @section('content')
+
 <div class="mx-auto max-w-3xl p-8">
     <form method="POST" action="{{ route('locations-management.update', $location) }}"
           class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -45,4 +46,5 @@
         </div>
     </form>
 </div>
+
 @endsection
