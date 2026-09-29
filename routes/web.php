@@ -8,6 +8,8 @@ use App\Http\Controllers\LockerUsageController;
 use App\Http\Controllers\LockerMaintenanceController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\LocationsManagementController;
+use App\Http\Controllers\UsersManagementController;
+
 
 
 
@@ -115,3 +117,8 @@ Route::resource('reservation', ReservationController::class);
 //locations-management
 Route::resource('locations-management', LocationsManagementController::class)
     ->parameters(['locations-management' => 'location']);
+    
+
+// users-management
+Route::resource('users-management', UsersManagementController::class)
+    ->parameters(['users-management' => 'user']);
