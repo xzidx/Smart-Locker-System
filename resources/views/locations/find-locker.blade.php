@@ -36,8 +36,8 @@
                     <input
                         type="text"
                         name="search"
-                        value="{{ $search ?? '' }}"
-                        placeholder="Search address, building or location"
+                        value="{{ request('search') }}"
+                        placeholder="Search address, neighborhood or landmark"
                         class="w-full py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none"
                     >
 
@@ -54,30 +54,6 @@
             </div>
 
         </form>
-
-
-        {{-- SEARCH RESULT --}}
-        @if($search)
-
-            <div class="flex items-center justify-between mb-4">
-
-                <p class="text-sm text-gray-600">
-                    Showing results for:
-                    <span class="font-semibold text-slate-900">
-                        "{{ $search }}"
-                    </span>
-                </p>
-
-                <a
-                    href="{{ route('locations.index') }}"
-                    class="text-sm text-blue-600 hover:text-blue-700 font-medium"
-                >
-                    Clear Search
-                </a>
-
-            </div>
-
-        @endif
 
 
         {{-- LOCATIONS --}}
@@ -124,7 +100,7 @@
                 >
 
                     <div
-                        class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 transition hover:shadow-md hover:border-blue-300 cursor-pointer"
+                        class="bg-white border border-gray-200 rounded-xl shadow-sm p-20 transition hover:shadow-md hover:border-blue-300 cursor-pointer"
                     >
 
                         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -153,21 +129,7 @@
 
                                     <i class="fa-solid fa-location-dot text-gray-400 mr-1"></i>
 
-                                    {{ $location->address ?? 'Address not available' }}
-
-                                </p>
-
-
-                                {{-- BUILDING AND FLOOR --}}
-                                <p class="text-sm text-gray-500 mt-1">
-
-                                    <i class="fa-solid fa-building text-gray-400 mr-1"></i>
-
-                                    {{ $location->building }}
-
-                                    <span class="mx-1">•</span>
-
-                                    Floor {{ $location->floor }}
+                                    {{ $location->address ?? $location->location ?? 'Address not available' }}
 
                                 </p>
 
@@ -236,18 +198,6 @@
             @endforelse
 
         </div>
-
-
-        {{-- PAGINATION --}}
-        @if($locations->hasPages())
-
-            <div class="mt-6 flex justify-center">
-
-                {{ $locations->links() }}
-
-            </div>
-
-        @endif
 
     </div>
 

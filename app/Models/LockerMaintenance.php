@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class LockerMaintenance extends Model
 {
 
-    protected $table = 'locker_maintenances';
+    protected $table = 'locker_maintenance';
 
     protected $fillable = [
         'locker_id',

@@ -26,7 +26,9 @@
 
         <!-- Dashboard -->
         <a
-            href="{{ route('dashboard') }}"
+            href="{{ auth()->user()->role === 'staff'
+                ? route('staff.dashboard')
+                : route('dashboard') }}"
             class="flex items-center gap-3 px-6 py-3 transition hover:bg-[#2563EB]"
         >
             <i class="fa-solid fa-house w-5"></i>
