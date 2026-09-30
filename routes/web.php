@@ -69,12 +69,15 @@ Route::put('/settings/profile', [ProfileController::class, 'update'])
         '/reservation_checkout/{lockerId}',
         [ReservationController::class, 'checkout']
     )->name('reservation.checkout');
-    });
-    Route::post('/reservation/{reservation}/approve', [ReservationController::class, 'approve'])
+
+    // staff dashabnoard reject/approve the lockers
+     Route::post('/reservation/{reservation}/approve', [ReservationController::class, 'approve'])
         ->name('reservation.approve');
 
     Route::post('/reservation/{reservation}/reject', [ReservationController::class, 'reject'])
         ->name('reservation.reject');
+    
+   
 
     // for change location for staff and user
    Route::prefix('staff')->group(function () {
@@ -101,8 +104,7 @@ Route::put('/settings/profile', [ProfileController::class, 'update'])
         ->name('locations-management.destroy');
 
 });
-    Route::get('/staff/users', [UsersManagementController::class, 'index'])
-    ->name('users-management.index');
+
     Route::resource(
     'staff/users',
         UsersManagementController::class
@@ -118,6 +120,7 @@ Route::put('/settings/profile', [ProfileController::class, 'update'])
     Route::post('/admin/staff', [AdminStaffController::class, 'store'])
     ->name('admin.staff.store');
 
+    });
 
 
 
@@ -151,11 +154,6 @@ Route::put('/settings/profile', [ProfileController::class, 'update'])
 
 
 
-
-
-
-// Reservation
-Route::resource('reservation', ReservationController::class);
 
 
 

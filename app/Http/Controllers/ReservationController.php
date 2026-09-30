@@ -112,13 +112,50 @@ public function approve($id)
 {
     $reservation = Reservation::findOrFail($id);
 
+    // Prevent creating duplicate locker usage
+    $existingUsage = LockerUsage::where('locker_id', $reservation->locker_id)
+        ->where('user_id', $reservation->user_id)
+        ->whereIn('status', ['active', 'confirmed'])
+        ->first();
+
+    if ($existingUsage) {
+        return back()->with(
+            'error',
+            'This reservation already has a locker usage record.'
+        );
+    }
+
+    // Calculate end time
+    $startTime = \Carbon\Carbon::parse($reservation->start_time);
+
+    $endTime = $startTime->copy()->addHours(
+        $reservation->duration
+    );
+
+    // Create locker usage
+    LockerUsage::create([
+        'user_id' => $reservation->user_id,
+        'locker_id' => $reservation->locker_id,
+        'start_time' => $startTime,
+        'end_time' => $endTime,
+        'status' => 'active',
+    ]);
+
+    // Update reservation
     $reservation->update([
         'status' => 'confirmed',
     ]);
 
+    // Update locker status
+    $locker = Locker::findOrFail($reservation->locker_id);
+
+    $locker->update([
+        'status' => 'occupied',
+    ]);
+
     return back()->with(
         'success',
-        'Reservation approved successfully.'
+        'Reservation approved and locker usage started successfully.'
     );
 }
 

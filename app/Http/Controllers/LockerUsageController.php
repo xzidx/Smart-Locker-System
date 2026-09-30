@@ -70,13 +70,13 @@ class LockerUsageController extends Controller
 
         $lockerUsage->update($request->all());
 
-        return redirect()->route('locker-usage.index');
+        return redirect()->route('locker_usage.index');
     }
 
     public function destroy(LockerUsage $lockerUsage)
     {
         $lockerUsage->delete();
 
-        return redirect()->route('locker-usage.index');
+        return redirect()->route('locker_usage.index');
     }
 }
