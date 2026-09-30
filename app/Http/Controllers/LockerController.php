@@ -9,11 +9,32 @@ use Illuminate\Http\Request;
 class LockerController extends Controller
 {
     public function index()
-    {
-        $lockers = Locker::with('location')->get();
+        {
+            $lockers = Locker::with('location')
+                ->paginate(10);
 
-        return view('lockers.index', compact('lockers'));
-    }
+            $locations = Location::orderBy('name')->get();
+
+            $totalLockers = Locker::count();
+
+            $availableLockers = Locker::where('status', 'available')->count();
+
+            $occupiedLockers = Locker::where('status', 'occupied')->count();
+
+            $reservedLockers = Locker::where('status', 'reserved')->count();
+
+            $maintenanceLockers = Locker::where('status', 'maintenance')->count();
+
+            return view('lockers.index', compact(
+                'lockers',
+                'locations',
+                'totalLockers',
+                'availableLockers',
+                'occupiedLockers',
+                'reservedLockers',
+                'maintenanceLockers'
+            ));
+        }
 
     public function create()
     {
