@@ -27,7 +27,7 @@
         <!-- Dashboard -->
         <a
             href="{{ auth()->user()->role === 'admin'
-                ? route('admin.dashboard')
+                ? route('staff.dashboard')
                 : (auth()->user()->role === 'staff'
                     ? route('staff.dashboard')
                     : route('dashboard')) }}"
