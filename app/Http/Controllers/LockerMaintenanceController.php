@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class LockerMaintenanceController extends Controller
 {
     /**
-     * Display maintenance tickets.
+     * Display maintenance requests.
      */
     public function index(Request $request)
     {
@@ -17,22 +17,37 @@ class LockerMaintenanceController extends Controller
             'locker.location'
         ]);
 
-        // Search by locker or issue
+        // Search
         if ($request->filled('search')) {
+
             $search = $request->search;
 
             $query->where(function ($q) use ($search) {
+
                 $q->where('issue', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%")
                     ->orWhereHas('locker', function ($lockerQuery) use ($search) {
-                        $lockerQuery->where('name', 'like', "%{$search}%");
+
+                        $lockerQuery->where(
+                            'name',
+                            'like',
+                            "%{$search}%"
+                        );
+
                     });
+
             });
         }
 
         // Status filter
-        if ($request->filled('status') && $request->status !== 'all') {
-            $query->where('status', $request->status);
+        if (
+            $request->filled('status') &&
+            $request->status !== 'all'
+        ) {
+            $query->where(
+                'status',
+                $request->status
+            );
         }
 
         $maintenances = $query
@@ -41,71 +56,111 @@ class LockerMaintenanceController extends Controller
             ->withQueryString();
 
         // Statistics
-        $openIssues = LockerMaintenance::where('status', 'Open')->count();
+        $openIssues = LockerMaintenance::where(
+            'status',
+            'Open'
+        )->count();
 
-        $inProgress = LockerMaintenance::where('status', 'In Progress')->count();
+        $inProgress = LockerMaintenance::where(
+            'status',
+            'In Progress'
+        )->count();
 
-        $completedThisMonth = LockerMaintenance::where('status', 'Completed')
-            ->whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
+        $completedThisMonth = LockerMaintenance::where(
+            'status',
+            'Completed'
+        )
+            ->whereMonth(
+                'created_at',
+                now()->month
+            )
+            ->whereYear(
+                'created_at',
+                now()->year
+            )
             ->count();
 
         $criticalIssues = 0;
 
         $lockers = Locker::with('location')->get();
 
-        return view('locker_maintenance.index', compact(
-            'maintenances',
-            'openIssues',
-            'inProgress',
-            'completedThisMonth',
-            'criticalIssues',
-            'lockers'
-        ));
-    }
-
-
-    /**
-     * Show create form.
-     */
-    public function create()
-    {
-        $lockers = Locker::with('location')->get();
-
         return view(
-            'locker_maintenance.create',
-            compact('lockers')
+            'locker_maintenance.index',
+            compact(
+                'maintenances',
+                'openIssues',
+                'inProgress',
+                'completedThisMonth',
+                'criticalIssues',
+                'lockers'
+            )
         );
     }
 
 
     /**
-     * Store new maintenance ticket.
+     * Show create maintenance form.
+     */
+    public function create(Request $request)
+    {
+        // Get the locker selected from the Report Maintenance button
+        $locker = Locker::with('location')
+            ->findOrFail($request->locker_id);
+
+        // Also load all lockers because the current
+        // create.blade.php still contains the locker dropdown.
+        $lockers = Locker::with('location')->get();
+
+        return view(
+            'locker_maintenance.create',
+            compact(
+                'locker',
+                'lockers'
+            )
+        );
+    }
+
+
+    /**
+     * Store maintenance request.
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'locker_id' => 'required|exists:lockers,id',
-            'issue' => 'required|max:255',
-            'description' => 'nullable',
+            'issue' => 'required|string|max:255',
+            'description' => 'nullable|string',
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'status' => 'required|max:30',
+            'status' => 'required|string|max:30',
         ]);
 
-        LockerMaintenance::create($validated);
+        $maintenance = LockerMaintenance::create($validated);
+
+        // If maintenance starts immediately,
+        // change locker status to maintenance.
+        if ($maintenance->status === 'In Progress') {
+
+            $maintenance->locker->update([
+                'status' => 'maintenance'
+            ]);
+        }
 
         return redirect()
             ->route('locker_maintenance.index')
-            ->with('success', 'Maintenance ticket created successfully.');
+            ->with(
+                'success',
+                'Maintenance ticket created successfully.'
+            );
     }
 
 
     /**
-     * Show maintenance ticket.
+     * Display maintenance request.
      */
-    public function show(LockerMaintenance $lockerMaintenance)
-    {
+    public function show(
+        LockerMaintenance $lockerMaintenance
+    ) {
         $lockerMaintenance->load([
             'locker.location'
         ]);
@@ -120,8 +175,9 @@ class LockerMaintenanceController extends Controller
     /**
      * Show edit form.
      */
-    public function edit(LockerMaintenance $lockerMaintenance)
-    {
+    public function edit(
+        LockerMaintenance $lockerMaintenance
+    ) {
         $lockers = Locker::with('location')->get();
 
         return view(
@@ -135,7 +191,7 @@ class LockerMaintenanceController extends Controller
 
 
     /**
-     * Update maintenance ticket.
+     * Update maintenance request.
      */
     public function update(
         Request $request,
@@ -143,30 +199,77 @@ class LockerMaintenanceController extends Controller
     ) {
         $validated = $request->validate([
             'locker_id' => 'required|exists:lockers,id',
-            'issue' => 'required|max:255',
-            'description' => 'nullable',
+            'issue' => 'required|string|max:255',
+            'description' => 'nullable|string',
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'status' => 'required|max:30',
+            'status' => 'required|string|max:30',
         ]);
 
         $lockerMaintenance->update($validated);
 
+        $locker = $lockerMaintenance->locker;
+
+        // In Progress = Under Maintenance
+        if ($lockerMaintenance->status === 'In Progress') {
+
+            $locker->update([
+                'status' => 'maintenance'
+            ]);
+        }
+
+        // Completed = Available
+        elseif ($lockerMaintenance->status === 'Completed') {
+
+            $locker->update([
+                'status' => 'available'
+            ]);
+        }
+
         return redirect()
             ->route('locker_maintenance.index')
-            ->with('success', 'Maintenance ticket updated successfully.');
+            ->with(
+                'success',
+                'Maintenance ticket updated successfully.'
+            );
     }
 
 
     /**
-     * Delete maintenance ticket.
+     * Delete maintenance request.
      */
-    public function destroy(LockerMaintenance $lockerMaintenance)
-    {
+    public function destroy(
+        LockerMaintenance $lockerMaintenance
+    ) {
+        $locker = $lockerMaintenance->locker;
+
         $lockerMaintenance->delete();
+
+        if ($locker) {
+
+            $hasActiveMaintenance = LockerMaintenance::where(
+                'locker_id',
+                $locker->id
+            )
+                ->whereIn(
+                    'status',
+                    ['Open', 'In Progress']
+                )
+                ->exists();
+
+            if (!$hasActiveMaintenance) {
+
+                $locker->update([
+                    'status' => 'available'
+                ]);
+            }
+        }
 
         return redirect()
             ->route('locker_maintenance.index')
-            ->with('success', 'Maintenance ticket deleted successfully.');
+            ->with(
+                'success',
+                'Maintenance ticket deleted successfully.'
+            );
     }
 }
