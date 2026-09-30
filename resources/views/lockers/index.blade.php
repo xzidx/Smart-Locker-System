@@ -16,13 +16,6 @@
             Monitor and manage locker assignments across all locations.
         </p>
 
-        <a
-            href="{{ route('lockers.create') }}"
-            class="mt-5 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
-        >
-            <span class="text-xl leading-none">+</span>
-            Assign Locker
-        </a>
     </div>
 
 
