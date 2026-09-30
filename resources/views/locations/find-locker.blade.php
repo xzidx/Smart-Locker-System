@@ -8,196 +8,391 @@
 
 @section('content')
 
-<div class="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 px-4 py-8 sm:px-8">
+<div class="w-full bg-slate-50">
 
-    <div class="mx-auto max-w-6xl space-y-8">
+    <div class="w-full space-y-6 p-4 sm:p-6 lg:p-8">
 
-        {{-- HEADER --}}
-        <div class="mb-6">
-            <h1 class="text-2xl md:text-3xl font-bold text-slate-900">
-                Find a Locker
-            </h1>
+        {{-- ===================================================== --}}
+        {{-- HEADER                                                --}}
+        {{-- ===================================================== --}}
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
-            <p class="text-sm text-slate-500 mt-1">
-                Find an available locker near your location.
-            </p>
-        </div>
+            <div>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                    Find a Locker
+                </h1>
 
+                <p class="mt-1 text-sm text-slate-500">
+                    Find an available locker near your location.
+                </p>
+            </div>
 
-        {{-- SEARCH --}}
-        <form method="GET" action="{{ route('locations.index') }}" class="mb-6">
+            {{-- Location Count --}}
+            <div class="flex w-fit items-center gap-3 rounded-2xl border border-slate-200/80 bg-white px-4 py-3 shadow-sm">
 
-            <div class="flex items-center gap-2 bg-white border border-gray-200 rounded-xl shadow-sm p-2">
-
-                <div class="flex items-center flex-1 px-2">
-
-                    <i class="fa-solid fa-magnifying-glass text-gray-400 mr-2"></i>
-
-                    <input
-                        type="text"
-                        name="search"
-                        value="{{ request('search') }}"
-                        placeholder="Search address, neighborhood or landmark"
-                        class="w-full py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none"
-                    >
-
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                    <i class="fa-solid fa-location-dot"></i>
                 </div>
 
-                <button
-                    type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2.5 rounded-lg"
-                >
-                    <i class="fa-solid fa-magnifying-glass mr-1"></i>
-                    Search
-                </button>
+                <div>
+                    <p class="text-xs text-slate-400">
+                        Available Locations
+                    </p>
+
+                    <p class="text-lg font-bold text-slate-900">
+                        {{ $locations->count() }}
+                    </p>
+                </div>
 
             </div>
 
-        </form>
+        </div>
 
 
-        {{-- LOCATIONS --}}
-        <div class="space-y-4">
+        {{-- ===================================================== --}}
+        {{-- SEARCH CARD                                           --}}
+        {{-- ===================================================== --}}
+        <div class="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm sm:p-6">
 
-            @forelse ($locations as $location)
+            <div class="mb-4">
 
-                @php
+                <h2 class="font-bold text-slate-800">
+                    Search Locations
+                </h2>
 
-                    $totalLockers = $location->lockers_count ?? 0;
+                <p class="mt-1 text-xs text-slate-400 sm:text-sm">
+                    Search by address, neighborhood, or landmark.
+                </p>
 
-                    $availableLockers = $location->available_count ?? 0;
-
-                    if ($availableLockers > 0) {
-
-                        $statusLabel = 'Available';
-
-                        $statusClasses =
-                            'bg-green-50 text-green-700 border border-green-200';
-
-                    } elseif ($totalLockers > 0) {
-
-                        $statusLabel = 'Full';
-
-                        $statusClasses =
-                            'bg-red-50 text-red-700 border border-red-200';
-
-                    } else {
-
-                        $statusLabel = 'No Lockers';
-
-                        $statusClasses =
-                            'bg-gray-50 text-gray-600 border border-gray-200';
-
-                    }
-
-                @endphp
+            </div>
 
 
-                {{-- LOCATION CARD --}}
-                <a
-                    href="{{ route('locations.show', $location->id) }}"
-                    class="block"
-                >
+            <form
+                method="GET"
+                action="{{ route('locations.index') }}"
+                class="w-full"
+            >
 
-                    <div
-                        class="bg-white border border-gray-200 rounded-xl shadow-sm p-20 transition hover:shadow-md hover:border-blue-300 cursor-pointer"
+                <div class="flex w-full flex-col gap-3 sm:flex-row">
+
+                    {{-- Search Input --}}
+                    <div class="flex min-w-0 flex-1 items-center rounded-xl border border-slate-200 bg-slate-50 px-4 transition focus-within:border-blue-400 focus-within:bg-white">
+
+                        <i class="fa-solid fa-magnifying-glass mr-3 text-sm text-slate-400"></i>
+
+                        <input
+                            type="text"
+                            name="search"
+                            value="{{ request('search') }}"
+                            placeholder="Search location..."
+                            class="w-full border-0 bg-transparent py-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:ring-0"
+                        >
+
+                    </div>
+
+
+                    {{-- Search Button --}}
+                    <button
+                        type="submit"
+                        class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                     >
 
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        Search
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
 
 
-                            {{-- LOCATION INFORMATION --}}
-                            <div class="flex-1">
+        {{-- ===================================================== --}}
+        {{-- LOCATIONS HEADER                                      --}}
+        {{-- ===================================================== --}}
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
 
-                                <div class="flex items-center gap-2 flex-wrap">
+            <div>
 
-                                    <h2 class="font-semibold text-slate-900 text-lg">
-                                        {{ $location->name }}
-                                    </h2>
+                <h2 class="text-xl font-bold text-slate-800">
+                    Locker Locations
+                </h2>
 
-                                    <span
-                                        class="text-xs font-medium px-2 py-1 rounded-full {{ $statusClasses }}"
-                                    >
+                <p class="mt-1 text-sm text-slate-400">
+                    Select a location to view available lockers.
+                </p>
+
+            </div>
+
+
+            @if ($locations->count() > 0)
+
+                <span class="w-fit rounded-xl bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-600">
+
+                    <i class="fa-solid fa-location-dot mr-1"></i>
+
+                    {{ $locations->count() }}
+                    {{ \Illuminate\Support\Str::plural('location', $locations->count()) }}
+
+                </span>
+
+            @endif
+
+        </div>
+
+
+        {{-- ===================================================== --}}
+        {{-- LOCATION GRID                                         --}}
+        {{-- ===================================================== --}}
+        <section>
+
+            @if ($locations->count() > 0)
+
+                <div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+
+                    @foreach ($locations as $location)
+
+                        @php
+
+                            $totalLockers = $location->lockers_count ?? 0;
+
+                            $availableLockers = $location->available_count ?? 0;
+
+                            $percentage = $totalLockers > 0
+                                ? ($availableLockers / $totalLockers) * 100
+                                : 0;
+
+                            if ($availableLockers > 0) {
+
+                                $statusLabel = 'Available';
+
+                                $statusClasses =
+                                    'bg-emerald-50 text-emerald-700 border-emerald-200';
+
+                                $iconClasses =
+                                    'bg-emerald-50 text-emerald-600';
+
+                                $progressClass =
+                                    'bg-emerald-500';
+
+                            } elseif ($totalLockers > 0) {
+
+                                $statusLabel = 'Full';
+
+                                $statusClasses =
+                                    'bg-rose-50 text-rose-700 border-rose-200';
+
+                                $iconClasses =
+                                    'bg-rose-50 text-rose-600';
+
+                                $progressClass =
+                                    'bg-rose-500';
+
+                            } else {
+
+                                $statusLabel = 'No Lockers';
+
+                                $statusClasses =
+                                    'bg-slate-50 text-slate-600 border-slate-200';
+
+                                $iconClasses =
+                                    'bg-slate-50 text-slate-500';
+
+                                $progressClass =
+                                    'bg-slate-400';
+
+                            }
+
+                        @endphp
+
+
+                        {{-- ================================================= --}}
+                        {{-- LOCATION CARD                                    --}}
+                        {{-- ================================================= --}}
+                        <a
+                            href="{{ route('locations.show', $location->id) }}"
+                            class="group block h-full"
+                        >
+
+                            <div class="flex h-full flex-col rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md sm:p-6">
+
+
+                                {{-- Card Header --}}
+                                <div class="flex items-start justify-between gap-3">
+
+                                    <div class="flex min-w-0 items-center gap-3">
+
+                                        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl {{ $iconClasses }}">
+
+                                            <i class="fa-solid fa-location-dot"></i>
+
+                                        </div>
+
+
+                                        <div class="min-w-0">
+
+                                            <h3 class="truncate text-base font-bold text-slate-800">
+                                                {{ $location->name }}
+                                            </h3>
+
+                                            <p class="mt-0.5 text-xs text-slate-400">
+                                                Locker Location
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    {{-- Status --}}
+                                    <span class="shrink-0 rounded-lg border px-2.5 py-1 text-[11px] font-semibold {{ $statusClasses }}">
+
                                         {{ $statusLabel }}
+
                                     </span>
 
                                 </div>
 
 
-                                {{-- ADDRESS --}}
-                                <p class="text-sm text-gray-500 mt-2">
+                                {{-- Address --}}
+                                <div class="mt-5 flex items-start gap-2">
 
-                                    <i class="fa-solid fa-location-dot text-gray-400 mr-1"></i>
+                                    <i class="fa-solid fa-location-dot mt-0.5 shrink-0 text-xs text-slate-400"></i>
 
-                                    {{ $location->address ?? $location->location ?? 'Address not available' }}
+                                    <p class="line-clamp-2 text-xs leading-5 text-slate-500 sm:text-sm">
 
-                                </p>
+                                        {{ $location->address ?? $location->location ?? 'Address not available' }}
+
+                                    </p>
+
+                                </div>
 
 
-                                {{-- LOCKER COUNT --}}
-                                <p class="text-sm text-gray-600 mt-2">
+                                {{-- Locker Statistics --}}
+                                <div class="mt-5 grid grid-cols-2 gap-3">
 
-                                    <span class="font-medium text-green-700">
-                                        {{ $availableLockers }} available
+                                    {{-- Available --}}
+                                    <div class="rounded-xl bg-emerald-50 p-3">
+
+                                        <p class="text-xs text-emerald-600">
+                                            Available
+                                        </p>
+
+                                        <p class="mt-1 text-xl font-bold text-emerald-700">
+                                            {{ $availableLockers }}
+                                        </p>
+
+                                    </div>
+
+
+                                    {{-- Total --}}
+                                    <div class="rounded-xl bg-slate-50 p-3">
+
+                                        <p class="text-xs text-slate-500">
+                                            Total Lockers
+                                        </p>
+
+                                        <p class="mt-1 text-xl font-bold text-slate-800">
+                                            {{ $totalLockers }}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+
+                                {{-- Availability --}}
+                                <div class="mt-5">
+
+                                    <div class="mb-2 flex items-center justify-between">
+
+                                        <span class="text-xs font-medium text-slate-500">
+                                            Availability
+                                        </span>
+
+                                        <span class="text-xs font-bold text-slate-700">
+                                            {{ number_format($percentage, 0) }}%
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="h-2 w-full overflow-hidden rounded-full bg-slate-100">
+
+                                        <div
+                                            class="h-full rounded-full {{ $progressClass }} transition-all duration-300"
+                                            style="width: {{ min($percentage, 100) }}%"
+                                        ></div>
+
+                                    </div>
+
+                                </div>
+
+
+                                {{-- View Button --}}
+                                <div class="mt-6 border-t border-slate-100 pt-4">
+
+                                    <span class="flex items-center justify-between text-sm font-semibold text-blue-600 transition group-hover:text-blue-700">
+
+                                        <span>
+                                            View Lockers
+                                        </span>
+
+                                        <i class="fa-solid fa-arrow-right text-xs transition group-hover:translate-x-1"></i>
+
                                     </span>
 
-                                    <span class="text-gray-400">
-                                        / {{ $totalLockers }} total lockers
-                                    </span>
-
-                                </p>
+                                </div>
 
                             </div>
 
+                        </a>
 
-                            {{-- VIEW LOCKERS --}}
-                            <div>
+                    @endforeach
 
-                                <span
-                                    class="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2.5 rounded-lg w-full sm:w-auto"
-                                >
+                </div>
 
-                                    <i class="fa-solid fa-box-open"></i>
+            @else
 
-                                    View Lockers
+                {{-- ================================================= --}}
+                {{-- EMPTY STATE                                      --}}
+                {{-- ================================================= --}}
+                <div class="rounded-2xl border border-slate-200/80 bg-white px-6 py-16 text-center shadow-sm">
 
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </a>
-
-
-            @empty
-
-                {{-- NO LOCATIONS --}}
-                <div
-                    class="bg-white border border-gray-200 rounded-xl p-10 text-center"
-                >
-
-                    <div class="text-gray-400 text-4xl mb-4">
+                    <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-50 text-2xl text-slate-300">
 
                         <i class="fa-solid fa-location-dot"></i>
 
                     </div>
 
-                    <h2 class="text-lg font-semibold text-slate-900">
+                    <h2 class="text-lg font-bold text-slate-800">
                         No locations found
                     </h2>
 
-                    <p class="text-sm text-gray-500 mt-1">
-                        Try another search or check again later.
+                    <p class="mx-auto mt-2 max-w-md text-sm text-slate-400">
+                        We couldn't find any locker locations matching your search.
+                        Try another location or check again later.
                     </p>
+
+                    <a
+                        href="{{ route('locations.index') }}"
+                        class="mt-5 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+                    >
+
+                        <i class="fa-solid fa-rotate-right text-xs"></i>
+
+                        View All Locations
+
+                    </a>
 
                 </div>
 
-            @endforelse
+            @endif
 
-        </div>
+        </section>
 
     </div>
 
