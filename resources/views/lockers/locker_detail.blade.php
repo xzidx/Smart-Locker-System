@@ -57,7 +57,7 @@
                     <div class="relative w-full h-[320px] bg-slate-900">
 
                         <img
-                            src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1000&q=80"
+                            src="https://vpod.com/wp-content/uploads/2026/08/vflex-smart-lockers-1200.webp"
                             alt="Smart Locker"
                             class="w-full h-full object-cover filter contrast-105"
                         >
