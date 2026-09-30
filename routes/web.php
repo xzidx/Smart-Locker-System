@@ -53,6 +53,7 @@ Route::get('/dashboard/staff', [StaffDashboardController::class, 'index'])
 
     // Locker Maintenance
     Route::resource('locker_maintenance', LockerMaintenanceController::class);
+    
 
     Route::get('/settings', [ProfileController::class, 'index'])
     ->name('settings');
