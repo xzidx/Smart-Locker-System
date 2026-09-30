@@ -98,15 +98,36 @@ public function show($id)
 }
 
 public function destroy($id)
-{
-    $reservation = Reservation::findOrFail($id);
+    {
+        $reservation = Reservation::findOrFail($id);
 
-    $reservation->delete();
+        // Find the locker usage for this reservation
+        $lockerUsage = LockerUsage::where('locker_id', $reservation->locker_id)
+            ->where('user_id', $reservation->user_id)
+            ->whereIn('status', ['active', 'confirmed'])
+            ->first();
 
-    return redirect()
-        ->route('reservation.index')
-        ->with('success', 'Locker released successfully!');
-}
+        // Change locker back to available
+        $locker = Locker::find($reservation->locker_id);
+
+        if ($locker) {
+            $locker->update([
+                'status' => 'available',
+            ]);
+        }
+
+        // Delete the locker usage
+        if ($lockerUsage) {
+            $lockerUsage->delete();
+        }
+
+        // Delete the reservation
+        $reservation->delete();
+
+        return redirect()
+            ->route('reservation.index')
+            ->with('success', 'Locker released successfully!');
+    }
 
 public function approve($id)
 {
