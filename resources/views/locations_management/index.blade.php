@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Locker Usage')
-@section('page-title', 'Locker Usage')
-@section('page-description', 'Manage your locker usage')
+@section('title', 'Locations')
+@section('page-title', 'Locations')
+@section('page-description', 'Manage your locations')
 
 @section('content')
-<div class="mx-auto max-w-6xl p-8">
+<div class="w-full p-8">
 
     @if (session('success'))
         <div class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-2 text-sm text-green-700">{{ session('success') }}</div>
@@ -70,7 +70,7 @@
     </form>
 
     {{-- Table card --}}
-    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+    <div class="w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
                 <thead class="bg-slate-50 text-xs font-medium text-slate-600">
