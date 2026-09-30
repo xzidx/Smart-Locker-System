@@ -15,7 +15,6 @@
         <p class="mt-1 text-sm text-slate-500">
             Monitor and manage locker assignments across all locations.
         </p>
-
     </div>
 
 
@@ -110,7 +109,7 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"
+                    d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1 16 0 8 8 0 0 1 16 0Z"
                 />
             </svg>
 
@@ -233,132 +232,219 @@
         class="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4"
     >
 
-        
-    @forelse($lockers as $locker)
+        @forelse($lockers as $locker)
 
-    @php
-        $status = strtolower(trim($locker->status ?? 'available'));
+            @php
 
-        $locationName = $locker->location
-            ? $locker->location->name
-            : 'Not assigned';
+                $status = strtolower(
+                    trim($locker->status ?? 'available')
+                );
 
-        $floor = $locker->location
-            ? $locker->location->floor
-            : null;
-    @endphp
+                $locationName = $locker->location
+                    ? $locker->location->name
+                    : 'Not assigned';
 
-    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                $floor = $locker->location
+                    ? $locker->location->floor
+                    : null;
 
-        {{-- Header --}}
-        <div class="mb-5 flex items-start justify-between">
+            @endphp
 
-            <div>
 
-                <h3 class="text-lg font-bold text-slate-800">
-                    {{ $locker->name }}
-                </h3>
+            {{-- LOCKER CARD --}}
+            <div
+                class="locker-card rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                data-size="{{ strtolower($locker->size ?? '') }}"
+            >
 
-                {{-- Dynamic status --}}
-                @if($status === 'available')
+                {{-- HEADER --}}
+                <div class="mb-5 flex items-start justify-between">
 
-                    <span class="mt-1 inline-flex items-center gap-1.5 text-sm text-emerald-600">
-                        <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-                        Available
-                    </span>
+                    <div>
 
-                @elseif($status === 'occupied')
+                        <h3 class="text-lg font-bold text-slate-800">
+                            {{ $locker->name }}
+                        </h3>
 
-                    <span class="mt-1 inline-flex items-center gap-1.5 text-sm text-blue-600">
-                        <span class="h-2 w-2 rounded-full bg-blue-500"></span>
-                        Occupied
-                    </span>
 
-                @elseif($status === 'reserved')
+                        {{-- STATUS --}}
+                        @if($status === 'available')
 
-                    <span class="mt-1 inline-flex items-center gap-1.5 text-sm text-amber-600">
-                        <span class="h-2 w-2 rounded-full bg-amber-500"></span>
-                        Reserved
-                    </span>
+                            <span class="mt-1 inline-flex items-center gap-1.5 text-sm text-emerald-600">
 
-                @else
+                                <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
 
-                    <span class="mt-1 inline-flex items-center gap-1.5 text-sm text-red-600">
-                        <span class="h-2 w-2 rounded-full bg-red-500"></span>
-                        Maintenance
-                    </span>
+                                Available
 
-                @endif
+                            </span>
+
+                        @elseif($status === 'occupied')
+
+                            <span class="mt-1 inline-flex items-center gap-1.5 text-sm text-blue-600">
+
+                                <span class="h-2 w-2 rounded-full bg-blue-500"></span>
+
+                                Occupied
+
+                            </span>
+
+                        @elseif($status === 'reserved')
+
+                            <span class="mt-1 inline-flex items-center gap-1.5 text-sm text-amber-600">
+
+                                <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+
+                                Reserved
+
+                            </span>
+
+                        @elseif($status === 'maintenance')
+
+                            <span class="mt-1 inline-flex items-center gap-1.5 text-sm text-red-600">
+
+                                <span class="h-2 w-2 rounded-full bg-red-500"></span>
+
+                                Maintenance
+
+                            </span>
+
+                        @else
+
+                            <span class="mt-1 inline-flex items-center gap-1.5 text-sm text-slate-600">
+
+                                <span class="h-2 w-2 rounded-full bg-slate-500"></span>
+
+                                {{ ucfirst($status) }}
+
+                            </span>
+
+                        @endif
+
+                    </div>
+
+
+                    {{-- EDIT LOCKER --}}
+                    <a
+                        href="{{ route('lockers.edit', $locker->id) }}"
+                        class="text-xl font-bold tracking-widest text-slate-400 transition hover:text-blue-600"
+                        title="Edit Locker"
+                    >
+                        ···
+                    </a>
+
+                </div>
+
+
+                {{-- LOCKER INFORMATION --}}
+                <div class="space-y-2 text-sm text-slate-500">
+
+                    <p>
+
+                        <span class="font-medium text-slate-600">
+                            Locker ID:
+                        </span>
+
+                        #{{ $locker->id }}
+
+                    </p>
+
+
+                    <p>
+
+                        <span class="font-medium text-slate-600">
+                            Location:
+                        </span>
+
+                        {{ $locationName }}
+
+                    </p>
+
+
+                    @if($floor)
+
+                        <p>
+
+                            <span class="font-medium text-slate-600">
+                                Floor:
+                            </span>
+
+                            {{ $floor }}
+
+                        </p>
+
+                    @endif
+
+
+                    <p>
+
+                        <span class="font-medium text-slate-600">
+                            Status:
+                        </span>
+
+                        {{ ucfirst($status) }}
+
+                    </p>
+
+                </div>
+
+
+                {{-- ========================= --}}
+                {{-- MAINTENANCE --}}
+                {{-- ========================= --}}
+
+                <div class="mt-5 border-t border-slate-100 pt-4">
+
+                    @if($status === 'maintenance')
+
+                        <div class="flex w-full items-center justify-center gap-2 rounded-xl bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-600">
+
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+
+                            Under Maintenance
+
+                        </div>
+
+                    @else
+
+                        <a
+                            href="{{ route('locker_maintenance.create', ['locker_id' => $locker->id]) }}"
+                            class="flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-100"
+                        >
+
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+
+                            Report Maintenance
+
+                        </a>
+
+                    @endif
+
+                </div>
 
             </div>
 
-            <a
-                href="{{ route('lockers.edit', $locker->id) }}"
-                class="text-xl font-bold tracking-widest text-slate-400 hover:text-blue-600"
-            >
-                ···
-            </a>
+        @empty
 
-        </div>
+            {{-- NO LOCKERS --}}
+            <div class="col-span-full rounded-2xl border border-slate-200 bg-white px-6 py-14 text-center">
 
-        {{-- Dynamic information --}}
-        <div class="space-y-2 text-sm text-slate-500">
+                <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
 
-            <p>
-                <span class="font-medium text-slate-600">
-                    Locker ID:
-                </span>
+                    <i class="fa-solid fa-lock text-xl text-slate-400"></i>
 
-                #{{ $locker->id }}
-            </p>
+                </div>
 
-            <p>
-                <span class="font-medium text-slate-600">
-                    Location:
-                </span>
+                <h3 class="mt-4 text-lg font-semibold text-slate-800">
+                    No lockers found
+                </h3>
 
-                {{ $locationName }}
-            </p>
-
-            @if($floor)
-
-                <p>
-                    <span class="font-medium text-slate-600">
-                        Floor:
-                    </span>
-
-                    {{ $floor }}
+                <p class="mt-1 text-sm text-slate-500">
+                    Try changing your search or filters.
                 </p>
 
-            @endif
+            </div>
 
-            <p>
-                <span class="font-medium text-slate-600">
-                    Status:
-                </span>
-
-                {{ ucfirst($status) }}
-            </p>
-
-        </div>
-
-    </div>
-
-@empty
-
-    <div class="col-span-full rounded-2xl border border-slate-200 bg-white px-6 py-14 text-center">
-
-        <h3 class="text-lg font-semibold text-slate-800">
-            No lockers found
-        </h3>
-
-        <p class="mt-1 text-sm text-slate-500">
-            Try changing your search or filters.
-        </p>
-
-    </div>
-
-@endforelse
+        @endforelse
 
     </div>
 
@@ -396,7 +482,7 @@
 
         <div class="flex items-center gap-1.5">
 
-            {{-- Previous --}}
+            {{-- PREVIOUS --}}
             @if($lockers->onFirstPage())
 
                 <span class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-300">
@@ -415,7 +501,7 @@
             @endif
 
 
-            {{-- Pages --}}
+            {{-- PAGE NUMBERS --}}
             @for(
                 $page = 1;
                 $page <= $lockers->lastPage();
@@ -442,7 +528,7 @@
             @endfor
 
 
-            {{-- Next --}}
+            {{-- NEXT --}}
             @if($lockers->hasMorePages())
 
                 <a
