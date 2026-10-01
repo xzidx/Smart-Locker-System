@@ -31,7 +31,7 @@ class AdminStaffController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.dashboard')
+            ->route('admin.staff.create')
             ->with('success', 'Staff account created successfully.');
     }
 }

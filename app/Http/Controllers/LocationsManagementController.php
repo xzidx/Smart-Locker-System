@@ -40,9 +40,11 @@ class LocationsManagementController extends Controller
 
     public function store(Request $request)
     {
-        Location::create($this->validated($request));
+        $location = Location::create($this->validated($request));
 
-        return redirect()->route('locations-management.index')->with('success', 'Location created.');
+        return redirect()
+            ->route('locations-management.show', $location)
+            ->with('success', 'Location created successfully. You can now add lockers.');
     }
 
     public function show(Location $location)

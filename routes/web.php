@@ -15,6 +15,7 @@ use App\Http\Controllers\LocationsManagementController;
 use App\Http\Controllers\UsersManagementController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminStaffController;
+use App\Http\Controllers\LockerManagementController;
 // Authentication
 Route::get('/', function () {
     return redirect()->route('login');
@@ -77,7 +78,10 @@ Route::put('/settings/profile', [ProfileController::class, 'update'])
     Route::post('/reservation/{reservation}/reject', [ReservationController::class, 'reject'])
         ->name('reservation.reject');
     
-   
+        Route::resource(
+            'locker-management',
+            LockerManagementController::class
+        )->names('locker-management');
 
     // for change location for staff and user
    Route::prefix('staff')->group(function () {
